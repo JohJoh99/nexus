@@ -1,0 +1,63 @@
+/* Hauptansicht */
+.calendar-view {
+    -fx-background-color: #2b2b2b;
+    -fx-text-fill: #ffffff;
+}
+
+/* Tage */
+.calendar-day {
+    -fx-background-color: #3c3f41;
+    -fx-text-fill: #ffffff;
+}
+
+/* Zeitangaben */
+.calendar-time {
+    -fx-background-color: #3c3f41;
+    -fx-text-fill: #ffffff;
+}
+
+/* Einträge */
+.entry-view {
+    -fx-background-color: #3c3f41;
+    -fx-text-fill: #ffffff;
+}
+.entry-title {
+    -fx-text-fill: #ffffff;
+}
+.entry-time {
+    -fx-text-fill: #cccccc;
+}
+
+/* Navigation */
+.navigation-bar {
+    -fx-background-color: #1e1e1e;
+}
+.navigation-button {
+    -fx-background-color: #3c3f41;
+    -fx-text-fill: #ffffff;
+}
+
+/* Tooltip */
+.tooltip {
+    -fx-background-color: #3c3f41;
+    -fx-text-fill: #ffffff;
+}
+.tooltip-content {
+    -fx-text-fill: #ffffff;
+}
+
+/* Kopfzeilen */
+.day-header, .week-header, .month-header {
+    -fx-background-color: #1e1e1e;
+    -fx-text-fill: #ffffff;
+}
+
+/* Weitere Elemente */
+.calendar-header {
+    -fx-background-color: #1e1e1e;
+    -fx-text-fill: #ffffff;
+}
+.calendar-footer {
+    -fx-background-color: #1e1e1e;
+    -fx-text-fill: #ffffff;
+}
