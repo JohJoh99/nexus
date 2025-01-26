@@ -1,4 +1,4 @@
-package net.johjoh.nexusdesktop.panes;
+package net.johjoh.nexus.desktop.panes;
 
 import javafx.scene.layout.TilePane;
 

@@ -1,11 +1,11 @@
-package net.johjoh.nexusdesktop.panes;
+package net.johjoh.nexus.desktop.panes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 import com.calendarfx.model.Calendar;
-import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Calendar.Style;
+import com.calendarfx.model.CalendarSource;
 import com.calendarfx.view.CalendarView;
 
 import javafx.application.Platform;

@@ -1,4 +1,4 @@
-package net.johjoh.nexusapi.tables;
+package net.johjoh.nexus.api.tables;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
