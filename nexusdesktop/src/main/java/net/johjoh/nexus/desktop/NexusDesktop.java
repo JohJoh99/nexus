@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import net.johjoh.nexus.desktop.cloud.NexusDesktopCloudClient;
 import net.johjoh.nexus.desktop.panes.CalendarPane;
 import net.johjoh.nexus.desktop.panes.ControllPane;
 import net.johjoh.nexus.desktop.panes.MainMenuPane;
@@ -22,6 +23,7 @@ public class NexusDesktop extends Application {
 	
 	private static Application instance;
 	private static Stage primaryStageInstance;
+	private static NexusDesktopCloudClient cloudClient;
 	
 	private static MainMenuPane mainMenuPane;
 	private static CalendarPane calendarPane;
@@ -34,6 +36,9 @@ public class NexusDesktop extends Application {
 		
 		Properties props = Settings.loadProperties();
 		Settings.loadSettings(props);
+		
+		cloudClient = new NexusDesktopCloudClient("NEXUSDESKTOP-1337", Settings.getServerIP(), Settings.getServerPassword(), Settings.getServerPort());
+		new Thread(cloudClient).start();;
 		
 		createPanes();
 		launch(args);

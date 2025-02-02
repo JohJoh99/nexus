@@ -34,6 +34,8 @@ public class SettingsPane extends BorderPane {
 		setBottom(settingsFooter);
 	}
 	
+	public ConnectionSettings getConnectionSettings() { return this.connectionSettings; }
+	
 	private class SettingsHeader extends HBox {
 		
 		private Label title;
@@ -65,6 +67,10 @@ public class SettingsPane extends BorderPane {
 			done.setOnMouseReleased(new EventHandler<MouseEvent>() {
 
 		        public void handle(MouseEvent event) {
+		        	Settings.setServerSettings(NexusDesktop.getSettingsPane().getConnectionSettings().getServerIPField().getText(),
+		        			Integer.valueOf(NexusDesktop.getSettingsPane().getConnectionSettings().getServerPortField().getText()),
+		        			NexusDesktop.getSettingsPane().getConnectionSettings().getServerPasswordField().getText());
+		        	
 		            NexusDesktop.getSettingsPane().setVisible(false);
 		            NexusDesktop.getSettingsPane().toBack();
 		            NexusDesktop.getOverlayPane().setVisible(false);
@@ -106,31 +112,39 @@ public class SettingsPane extends BorderPane {
 	
 	private class ConnectionSettings extends VBox {
 		
+		private TextField serverIPField;
+		private TextField serverPasswordField;
+		private TextField serverPortField;
+		
 		private ConnectionSettings() {
 			addNodes();
 		}
 		
+		public TextField getServerIPField() { return this.serverIPField; }
+		public TextField getServerPasswordField() { return this.serverPasswordField; }
+		public TextField getServerPortField() { return this.serverPortField; }
+		
 		private void addNodes() {
 			Label ipTitle = new Label("Server-IP:");
 			getChildren().add(ipTitle);
-			TextField ipField = new TextField();
-			ipField.setPromptText("Server-IP");
-			ipField.setText(Settings.getServerIP());
-			getChildren().add(ipField);
+			serverIPField = new TextField();
+			serverIPField.setPromptText("Server-IP");
+			serverIPField.setText(Settings.getServerIP());
+			getChildren().add(serverIPField);
 			
 			Label passwordTitle = new Label("Server-Passwort:");
 			getChildren().add(passwordTitle);
-			TextField passwordField = new TextField();
-			passwordField.setPromptText("Passwort");
-			passwordField.setText(Settings.getServerPassword());
-			getChildren().add(passwordField);
+			serverPasswordField = new TextField();
+			serverPasswordField.setPromptText("Passwort");
+			serverPasswordField.setText(Settings.getServerPassword());
+			getChildren().add(serverPasswordField);
 			
 			Label portTitle = new Label("Server-Port:");
 			getChildren().add(portTitle);
-			TextField portField = new TextField();
-			portField.setPromptText("Port");
-			portField.setText(String.valueOf(Settings.getServerPort()));
-			getChildren().add(portField);
+			serverPortField = new TextField();
+			serverPortField.setPromptText("Port");
+			serverPortField.setText(String.valueOf(Settings.getServerPort()));
+			getChildren().add(serverPortField);
 		}
 		
 	}

@@ -19,8 +19,10 @@ public class Settings {
 		return serverIP;
 	}
 	
-	public static void setServerIP(String newIP) {
-		serverIP = newIP;
+	public static void setServerSettings(String newServerIP, int newPort, String newPassword) {
+		serverIP = newServerIP;
+		serverPort = newPort;
+		serverPassword = newPassword;
 		
 		File propertyFile = new File("nexus.properties");
 		Properties nexusProperties = new Properties();
@@ -31,9 +33,16 @@ public class Settings {
 		catch (IOException e) {
 			Logger.log(Level.FATAL, "Failed to Load nexus.properties");
 			Logger.logMinimal(e);
-			System.exit(1);
 		}
-		nexusProperties.setProperty("server-ip", newIP);
+		nexusProperties.setProperty("server-ip", newServerIP);
+		nexusProperties.setProperty("server-port", String.valueOf(newPort));
+		nexusProperties.setProperty("server-password", newPassword);
+		
+        try (FileOutputStream output = new FileOutputStream("nexus.properties")) {
+        	nexusProperties.store(output, "Nexus-Konfiguration");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 	
 	public static int getServerPort() {
