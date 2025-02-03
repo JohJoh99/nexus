@@ -2,8 +2,6 @@ package net.johjoh.nexus.desktop;
 
 import java.util.Properties;
 
-import atlantafx.base.theme.PrimerDark;
-import atlantafx.base.theme.PrimerLight;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -75,8 +73,8 @@ public class NexusDesktop extends Application {
 		instance = this;
 		primaryStageInstance = primaryStage;
 		
-        Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
-        Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
+        //Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
+        //Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
         
         StackPane mainPane = new StackPane();
         getRootFrame().setPrefSize(1280, 720);
@@ -99,6 +97,9 @@ public class NexusDesktop extends Application {
 		
 		
 		Scene scene = new Scene(mainPane);
+
+		scene.getStylesheets().add(getClass().getResource("/darkmode.css").toExternalForm());
+		
 		primaryStage.setTitle("Nexus");
 		primaryStage.setScene(scene);
 		primaryStage.setWidth(1280);
@@ -106,6 +107,7 @@ public class NexusDesktop extends Application {
 		primaryStage.centerOnScreen();
 		primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.show();
+		
 		
 
         primaryStage.setOnCloseRequest((WindowEvent event) -> {

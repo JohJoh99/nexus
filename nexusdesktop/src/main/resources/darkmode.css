@@ -1,3 +1,64 @@
+#login-pane {
+	-fx-border-color: #313538;
+	-fx-border-width: 1px;
+	-fx-background-color: #0a0a0a;
+	/* -fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #000030, #000010); */
+}
+
+#login-center-pane {
+	-fx-spacing: 30px;
+	-fx-padding: 20px;
+}
+
+#login-close-button {
+	-fx-background-color: #222222;
+	-fx-text-fill: #ffffff;
+	-fx-border-radius: 5px;
+}
+
+#login-close-button:hover {
+	-fx-background-color: #2d2d2d;
+	-fx-text-fill: #ffffff;
+}
+
+#login-close-button:pressed {
+	-fx-background-color: #161616;
+	-fx-text-fill: #ffffff;
+}
+
+#login-button {
+	-fx-background-color: #d53235;
+	-fx-text-fill: #ffffff;
+	-fx-border-radius: 3px;
+	-fx-font-size: 24px;
+}
+
+#login-button:hover {
+	-fx-background-color: #b62c2e;
+}
+
+#login-button:pressed {
+	-fx-background-color: #c12e31;
+}
+
+.login-text-field {
+	-fx-background-color: #161616;
+	-fx-text-fill: #ffffff;
+	-fx-border-color: #313538;
+	-fx-border-width: 1px;
+	-fx-border-radius: 3px;
+	-fx-font-size: 24px;
+}
+
+.login-text-field:hover {
+	-fx-background-color: #222222;
+}
+
+#server-settings-label {
+	-fx-text-fill: #ffffff;
+	-fx-underline: true;
+}
+
 /* Hauptansicht */
 .calendar-view {
     -fx-background-color: #2b2b2b;
