@@ -2,6 +2,8 @@ package net.johjoh.nexus.desktop.cloud;
 
 import net.johjoh.nexus.cloud.api.client.ClientType;
 import net.johjoh.nexus.cloud.api.packet.Packet;
+import net.johjoh.nexus.cloud.api.packet.data.PacketServerDataResponse;
+import net.johjoh.nexus.cloud.api.packet.user.PacketServerUserLoginResponse;
 import net.johjoh.nexus.cloud.client.CloudClient;
 
 public class NexusDesktopCloudClient extends CloudClient {
@@ -12,7 +14,12 @@ public class NexusDesktopCloudClient extends CloudClient {
 
 	@Override
 	public void onPacketReceive(Packet p) {
-		
+		if(p instanceof PacketServerDataResponse) {
+			
+		}
+		else if(p instanceof PacketServerUserLoginResponse) {
+			
+		}
 	}
 
 }

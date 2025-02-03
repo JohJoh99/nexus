@@ -1,10 +1,14 @@
 package net.johjoh.nexus.cloud.api.packet;
 
-import static net.johjoh.nexus.cloud.api.packet.PacketType.PacketBound.*;
-import static net.johjoh.nexus.cloud.api.packet.PacketType.PacketCategory.*;
+import static net.johjoh.nexus.cloud.api.packet.PacketType.PacketBound.CLIENT;
+import static net.johjoh.nexus.cloud.api.packet.PacketType.PacketBound.SERVER;
+import static net.johjoh.nexus.cloud.api.packet.PacketType.PacketCategory.GENERAL;
+import static net.johjoh.nexus.cloud.api.packet.PacketType.PacketCategory.WEB_CLIENT;
 
 import java.lang.reflect.InvocationTargetException;
 
+import net.johjoh.nexus.cloud.api.packet.data.PacketClientDataRequest;
+import net.johjoh.nexus.cloud.api.packet.data.PacketServerDataResponse;
 import net.johjoh.nexus.cloud.api.packet.general.PacketClientGeneralBroadcast;
 import net.johjoh.nexus.cloud.api.packet.general.PacketClientGeneralHandshake;
 import net.johjoh.nexus.cloud.api.packet.general.PacketClientGeneralLogin;
@@ -14,6 +18,8 @@ import net.johjoh.nexus.cloud.api.packet.general.PacketGeneralLogout;
 import net.johjoh.nexus.cloud.api.packet.general.PacketServerGeneralHandshake;
 import net.johjoh.nexus.cloud.api.packet.general.PacketServerGeneralLoginResponse;
 import net.johjoh.nexus.cloud.api.packet.general.PacketServerGeneralPublicKey;
+import net.johjoh.nexus.cloud.api.packet.user.PacketClientUserLogin;
+import net.johjoh.nexus.cloud.api.packet.user.PacketServerUserLoginResponse;
 
 /**
  * Enumeration containing all packets
@@ -70,6 +76,14 @@ public enum PacketType {
 	 *  -> BungeeCloudClient onPacketReceive()
 	 */
 	CLIENT_GENERAL_BROADCAST(30, PacketClientGeneralBroadcast.class, GENERAL, CLIENT),
+	
+	CLIENT_DATA_REQUEST(40, PacketClientDataRequest.class, WEB_CLIENT, CLIENT),
+	
+	SERVER_DATA_RESPONSE(41, PacketServerDataResponse.class, WEB_CLIENT, SERVER),
+	
+	CLIENT_USER_LOGIN(50, PacketClientUserLogin.class, WEB_CLIENT, CLIENT),
+	
+	SERVER_USER_LOGIN_RESPONSE(51, PacketServerUserLoginResponse.class, WEB_CLIENT, SERVER),
 	
 	;
 	

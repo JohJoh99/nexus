@@ -11,9 +11,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import net.johjoh.nexus.desktop.cloud.NexusDesktopCloudClient;
 import net.johjoh.nexus.desktop.panes.CalendarPane;
 import net.johjoh.nexus.desktop.panes.ControllPane;
+import net.johjoh.nexus.desktop.panes.LoginPane;
 import net.johjoh.nexus.desktop.panes.MainMenuPane;
 import net.johjoh.nexus.desktop.panes.RootFrame;
 import net.johjoh.nexus.desktop.panes.SettingsPane;
@@ -31,6 +33,7 @@ public class NexusDesktop extends Application {
 	private static ControllPane controllPane;
 	private static Pane overlayPane;
 	private static RootFrame rootFrame;
+	private static LoginPane loginPane;
 
 	public static void main(String[] args) {
 		
@@ -51,6 +54,7 @@ public class NexusDesktop extends Application {
 		controllPane = new ControllPane();
 		overlayPane = new Pane();
 		rootFrame = new RootFrame();
+		loginPane = new LoginPane();
 	}
 	
 	public static Application getInstance() { return instance; }
@@ -62,6 +66,7 @@ public class NexusDesktop extends Application {
 	public static ControllPane getControllPane() { return controllPane; }
 	public static Pane getOverlayPane() { return overlayPane; }
 	public static RootFrame getRootFrame() { return rootFrame; }
+	public static LoginPane getLoginPane() { return loginPane; }
 
 	@SuppressWarnings("static-access")
 	@Override
@@ -79,12 +84,18 @@ public class NexusDesktop extends Application {
         mainPane.setAlignment(getSettingsPane(), Pos.CENTER);
         getOverlayPane().setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
         getOverlayPane().setVisible(false); 
-		mainPane.getChildren().addAll(getSettingsPane(), getOverlayPane(), getRootFrame());
+		mainPane.getChildren().addAll(getSettingsPane(), getOverlayPane(), getRootFrame(), getLoginPane());
 		
 		getSettingsPane().setVisible(false);
 		
 		getOverlayPane().toFront();
 		getRootFrame().toFront();
+		
+
+    	getOverlayPane().setVisible(true);
+    	getOverlayPane().toFront();
+    	getLoginPane().setVisible(true);
+    	getLoginPane().toFront();
 		
 		
 		Scene scene = new Scene(mainPane);
@@ -95,6 +106,14 @@ public class NexusDesktop extends Application {
 		primaryStage.centerOnScreen();
 		primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.show();
+		
+
+        primaryStage.setOnCloseRequest((WindowEvent event) -> {
+    		if(cloudClient != null) {
+    			cloudClient.setAutoReconnect(false);
+    			cloudClient.close(true, "Nexus Desktop is being closed!");
+    		}
+        });
 	}
 	
 	//CalendarView c = new CalendarView();
