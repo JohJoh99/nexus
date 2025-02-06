@@ -18,9 +18,10 @@ public class SettingsPane extends BorderPane {
 	private SettingsCategories settingsCategories;
 	private SettingsFooter settingsFooter;
 	private ConnectionSettings connectionSettings;
+	private boolean login;
 	
 	public SettingsPane() {
-		setStyle("-fx-background-color: white;");
+		getStyleClass().add("pane-1");
 		setMaxSize(600, 580);
 		setMinSize(600, 580);
 		
@@ -34,7 +35,10 @@ public class SettingsPane extends BorderPane {
 		setBottom(settingsFooter);
 	}
 	
+	public void setLogin(boolean flag) { this.login = flag; }
+	
 	public ConnectionSettings getConnectionSettings() { return this.connectionSettings; }
+	public boolean getLogin() { return this.login; }
 	
 	private class SettingsHeader extends HBox {
 		
@@ -46,6 +50,7 @@ public class SettingsPane extends BorderPane {
 		
 		private void addNodes() {
 			title = new Label("Einstellungen");
+			title.setId("settings-header-label");
 			getChildren().add(title);
 		}
 		
@@ -73,7 +78,8 @@ public class SettingsPane extends BorderPane {
 		        	
 		            NexusDesktop.getSettingsPane().setVisible(false);
 		            NexusDesktop.getSettingsPane().toBack();
-		            NexusDesktop.getOverlayPane().setVisible(false);
+		            if(!NexusDesktop.getSettingsPane().getLogin())
+		            	NexusDesktop.getOverlayPane().setVisible(false);
 		        }
 		    });
 			getChildren().add(done);
@@ -89,18 +95,23 @@ public class SettingsPane extends BorderPane {
 		
 		private void addNodes() {
 			Label clientTitel = new Label("CLIENT");
+			clientTitel.getStyleClass().add("settings-list-label");
 			getChildren().add(clientTitel);
 			Label generalTitel = new Label("ALLGEMEIN");
+			generalTitel.getStyleClass().add("settings-list-label");
 			getChildren().add(generalTitel);
 			Label spacer = new Label("");
 			getChildren().add(spacer);
 			Label serverTitel = new Label("SERVER");
+			serverTitel.getStyleClass().add("settings-list-label");
 			getChildren().add(serverTitel);
 			Label connectionTitel = new Label("VERBINDUNGSEINSTELLUNGEN");
+			connectionTitel.getStyleClass().add("settings-list-label");
 			connectionTitel.setOnMouseReleased(new EventHandler<MouseEvent>() {
 
 		        public void handle(MouseEvent event) {
 		            settingsHeader.setTitle("SERVER / VERBINDUNGSEINSTELLUNGEN");
+		            settingsHeader.getStyleClass().add("settings-list-label");
 		            setCenter(connectionSettings);
 		        }
 		        

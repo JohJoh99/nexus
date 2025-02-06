@@ -43,6 +43,7 @@ public class ControllPane extends BorderPane {
 	        public void handle(MouseEvent event) {
 	        	NexusDesktop.getOverlayPane().setVisible(true);
 	        	NexusDesktop.getOverlayPane().toFront();
+	        	NexusDesktop.getSettingsPane().setLogin(false);
 	        	NexusDesktop.getSettingsPane().setVisible(true);
 	        	NexusDesktop.getSettingsPane().toFront();
 	        }

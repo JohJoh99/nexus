@@ -14,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import net.johjoh.nexus.desktop.NexusDesktop;
 
 public class LoginPane extends BorderPane {
 
@@ -22,7 +23,7 @@ public class LoginPane extends BorderPane {
 	private ServerSettingsLoginPane serverSettingsLoginPane;
 
 	public LoginPane() {
-		setId("login-pane");
+		getStyleClass().add("pane-1");
 
 		setMaxSize(400, 640);
 		setMinSize(400, 640);
@@ -45,7 +46,7 @@ public class LoginPane extends BorderPane {
 			setAlignment(Pos.CENTER_RIGHT);
 
 			closeButton = new Button("\u2715");
-			closeButton.setId("login-close-button");
+			closeButton.getStyleClass().add("button-1");
 			closeButton.setOnMouseReleased(new EventHandler<MouseEvent>() {
 				public void handle(MouseEvent event) {
 					System.exit(0);
@@ -71,7 +72,7 @@ public class LoginPane extends BorderPane {
 			setAlignment(Pos.CENTER);
 
 			loginLabel = new Label("Anmelden");
-			loginLabel.setStyle("-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;");
+			loginLabel.setId("login-label");
 			getChildren().add(loginLabel);
 
 			usernameField = new TextField();
@@ -86,6 +87,12 @@ public class LoginPane extends BorderPane {
 
 			loginButton = new Button("\u2794");
 			loginButton.setId("login-button");
+			loginButton.setOnMouseReleased(new EventHandler<MouseEvent>() {
+				public void handle(MouseEvent event) {
+		            NexusDesktop.getLoginPane().setVisible(false);
+		            NexusDesktop.getOverlayPane().setVisible(false);
+				}
+			});
 			getChildren().add(loginButton);
 
 		}
@@ -103,6 +110,13 @@ public class LoginPane extends BorderPane {
 			
 			serverSettingsLabel = new Label("Servereinstellungen");
 			serverSettingsLabel.setId("server-settings-label");
+			serverSettingsLabel.setOnMouseReleased(new EventHandler<MouseEvent>() {
+				public void handle(MouseEvent event) {
+		        	NexusDesktop.getSettingsPane().setLogin(true);
+		        	NexusDesktop.getSettingsPane().setVisible(true);
+		        	NexusDesktop.getSettingsPane().toFront();
+				}
+			});
 			getChildren().add(serverSettingsLabel);
 
 			serverStatusImage = new Image(getClass().getResource("/connecting.png").toExternalForm());

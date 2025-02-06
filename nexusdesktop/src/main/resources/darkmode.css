@@ -1,29 +1,46 @@
-#login-pane {
-	-fx-border-color: #313538;
-	-fx-border-width: 1px;
-	-fx-background-color: #0a0a0a;
-	/* -fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #000030, #000010); */
+.pane-1 {
+-fx-background-color: #0a0a0a;
+-fx-border-width: 2px;
+-fx-border-color: #313538;
+/* -fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #000030, #000010); */
 }
 
-#login-center-pane {
-	-fx-spacing: 30px;
-	-fx-padding: 20px;
-}
-
-#login-close-button {
+.button-1 {
 	-fx-background-color: #222222;
 	-fx-text-fill: #ffffff;
 	-fx-border-radius: 5px;
 }
 
-#login-close-button:hover {
+.button-1:hover {
 	-fx-background-color: #2d2d2d;
 	-fx-text-fill: #ffffff;
 }
 
-#login-close-button:pressed {
+.button-1:pressed {
 	-fx-background-color: #161616;
 	-fx-text-fill: #ffffff;
+}
+
+.settings-list-label {
+	-fx-background-color: #0a0a0a;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 12px;
+	-fx-font-weight: bold;
+}
+
+.settings-list-label:hover {
+	-fx-background-color: #555555;
+}
+
+#settings-header-label {
+-fx-text-fill: #ffffff;
+-fx-font-size: 14px;
+-fx-font-weight: bold;
+}
+
+#login-center-pane {
+	-fx-spacing: 30px;
+	-fx-padding: 20px;
 }
 
 #login-button {
@@ -57,6 +74,21 @@
 #server-settings-label {
 	-fx-text-fill: #ffffff;
 	-fx-underline: true;
+	-fx-padding: 10px;
+}
+
+#server-settings-label:hover {
+	-fx-text-fill: #aaaaaa;
+}
+
+#server-settings-label:pressed {
+	-fx-text-fill: #555555;
+}
+
+#login-label {
+	-fx-font-size: 24px;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
 }
 
 /* Hauptansicht */
