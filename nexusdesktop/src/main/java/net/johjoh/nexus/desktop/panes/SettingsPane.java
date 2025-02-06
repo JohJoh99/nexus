@@ -8,13 +8,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import net.johjoh.nexus.desktop.NexusDesktop;
 import net.johjoh.nexus.desktop.util.Settings;
 
 public class SettingsPane extends BorderPane {
 	
-	private SettingsHeader settingsHeader;
+	private SettingsHeaderContainer settingsHeaderContainer;
 	private SettingsCategories settingsCategories;
 	private SettingsFooter settingsFooter;
 	private ConnectionSettings connectionSettings;
@@ -25,37 +26,107 @@ public class SettingsPane extends BorderPane {
 		setMaxSize(600, 580);
 		setMinSize(600, 580);
 		
-		settingsHeader = new SettingsHeader();
+		settingsHeaderContainer = new SettingsHeaderContainer();
 		settingsCategories = new SettingsCategories();
 		settingsFooter = new SettingsFooter();
 		connectionSettings = new ConnectionSettings();
 		
-		setTop(settingsHeader);
+		setTop(settingsHeaderContainer);
 		setLeft(settingsCategories);
 		setBottom(settingsFooter);
 	}
 	
-	public void setLogin(boolean flag) { this.login = flag; }
+	public void setLogin(boolean flag) {
+		this.login = flag;
+		
+		if(this.login) {
+			openConnectionSettingsFront();
+		}
+	}
+	
+	public void openConnectionSettingsFront() {
+		settingsHeaderContainer.getSettingsHeader().setCategory("SERVER");
+    	settingsHeaderContainer.getSettingsHeader().setCategorySpacer(true);
+    	settingsHeaderContainer.getSettingsHeader().setSubCategory("VERBINDUNGSEINSTELLUNGEN");
+        settingsHeaderContainer.getStyleClass().add("settings-list-label");
+        setCenter(connectionSettings);
+	}
 	
 	public ConnectionSettings getConnectionSettings() { return this.connectionSettings; }
 	public boolean getLogin() { return this.login; }
 	
+	private class SettingsHeaderContainer extends VBox {
+		
+		private SettingsHeader settingsHeader;
+		
+		public SettingsHeaderContainer() {
+			setAlignment(Pos.TOP_CENTER);
+			
+			settingsHeader = new SettingsHeader();
+			getChildren().add(settingsHeader);
+			
+			SettingsHeaderUnderline shul = new SettingsHeaderUnderline();
+			getChildren().add(shul);
+		}
+		
+		public SettingsHeader getSettingsHeader() {
+			return this.settingsHeader;
+		}
+	}
+	
+	private class SettingsHeaderUnderline extends Pane {
+		
+		public SettingsHeaderUnderline() {
+			setId("settings-header-underline");
+			
+			setMaxSize(560, 10);
+			setMinSize(560, 10);
+		}
+	}
+	
 	private class SettingsHeader extends HBox {
 		
-		private Label title;
+		private Label category;
+		private Label categorySpacer;
+		private Label subCategory;
 		
 		private SettingsHeader() {
 			addNodes();
 		}
 		
 		private void addNodes() {
-			title = new Label("Einstellungen");
-			title.setId("settings-header-label");
-			getChildren().add(title);
+			setId("settings-header");
+			
+			category = new Label();
+			category.setId("settings-header-category");
+			category.getStyleClass().add("settings-header-label");
+			getChildren().add(category);
+			
+			categorySpacer = new Label();
+			categorySpacer.setId("settings-header-category-spacer");
+			categorySpacer.getStyleClass().add("settings-header-label");
+			getChildren().add(categorySpacer);
+			
+			subCategory = new Label();
+			subCategory.setId("settings-header-sub-category");
+			subCategory.getStyleClass().add("settings-header-label");
+			getChildren().add(subCategory);
+			
 		}
 		
-		public void setTitle(String newTitle) {
-			title.setText(newTitle);
+		public void setCategory(String category) {
+			this.category.setText(category);
+		}
+		
+		public void setCategorySpacer(boolean visible) {
+			if(visible)
+				this.categorySpacer.setText(" \\ ");
+			else
+				this.categorySpacer.setText("");
+		}
+		
+		public void setSubCategory(String subCategory) {
+			this.subCategory.setText(subCategory);
 		}
 		
 	}
@@ -110,9 +181,7 @@ public class SettingsPane extends BorderPane {
 			connectionTitel.setOnMouseReleased(new EventHandler<MouseEvent>() {
 
 		        public void handle(MouseEvent event) {
-		            settingsHeader.setTitle("SERVER / VERBINDUNGSEINSTELLUNGEN");
-		            settingsHeader.getStyleClass().add("settings-list-label");
-		            setCenter(connectionSettings);
+		        	openConnectionSettingsFront();
 		        }
 		        
 		    });

@@ -1,3 +1,20 @@
+.menu-frame {
+	-fx-background-color: #161616;
+	-fx-text-fill: #ffffff;
+	-fx-border-color: #313538;
+	-fx-border-width: 2px;
+}
+
+#settings-header {
+	
+}
+
+#settings-header-underline {
+	-fx-border-color: #313538;
+	-fx-border-width: 0 0 1px 0;
+	-fx-pref-width: 80%;
+}
+
 .pane-1 {
 -fx-background-color: #0a0a0a;
 -fx-border-width: 2px;
@@ -32,9 +49,9 @@
 	-fx-background-color: #555555;
 }
 
-#settings-header-label {
+.settings-header-label {
 -fx-text-fill: #ffffff;
--fx-font-size: 14px;
+-fx-font-size: 20px;
 -fx-font-weight: bold;
 }
 
@@ -122,13 +139,13 @@
 }
 
 /* Navigation */
-.navigation-bar {
+/*.navigation-bar {
     -fx-background-color: #1e1e1e;
 }
 .navigation-button {
     -fx-background-color: #3c3f41;
     -fx-text-fill: #ffffff;
-}
+}*/
 
 /* Tooltip */
 .tooltip {

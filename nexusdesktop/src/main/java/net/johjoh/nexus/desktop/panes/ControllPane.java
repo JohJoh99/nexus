@@ -37,7 +37,8 @@ public class ControllPane extends BorderPane {
 		    	System.exit(0);
 		    }
 		});
-		Button settings = new Button("Q");
+		Button settings = new Button("\u2699 \u26ED1");
+		settings.setStyle("-fx-font-weight: bold;");
 		settings.setOnMouseReleased(new EventHandler<MouseEvent>() {
 
 	        public void handle(MouseEvent event) {
