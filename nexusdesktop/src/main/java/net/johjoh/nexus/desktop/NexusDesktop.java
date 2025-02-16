@@ -17,6 +17,7 @@ import net.johjoh.nexus.desktop.panes.LoginPane;
 import net.johjoh.nexus.desktop.panes.MainMenuPane;
 import net.johjoh.nexus.desktop.panes.RootFrame;
 import net.johjoh.nexus.desktop.panes.SettingsPane;
+import net.johjoh.nexus.desktop.panes.weather.WeatherPane;
 import net.johjoh.nexus.desktop.util.Settings;
 
 public class NexusDesktop extends Application {
@@ -32,6 +33,7 @@ public class NexusDesktop extends Application {
 	private static Pane overlayPane;
 	private static RootFrame rootFrame;
 	private static LoginPane loginPane;
+	private static WeatherPane weatherPane;
 
 	public static void main(String[] args) {
 		
@@ -53,6 +55,7 @@ public class NexusDesktop extends Application {
 		overlayPane = new Pane();
 		rootFrame = new RootFrame();
 		loginPane = new LoginPane();
+		weatherPane = new WeatherPane();
 	}
 	
 	public static Application getInstance() { return instance; }
@@ -65,6 +68,7 @@ public class NexusDesktop extends Application {
 	public static Pane getOverlayPane() { return overlayPane; }
 	public static RootFrame getRootFrame() { return rootFrame; }
 	public static LoginPane getLoginPane() { return loginPane; }
+	public static WeatherPane getWeatherPane() { return weatherPane; }
 
 	@SuppressWarnings("static-access")
 	@Override

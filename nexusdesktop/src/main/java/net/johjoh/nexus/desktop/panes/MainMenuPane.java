@@ -14,7 +14,7 @@ public class MainMenuPane extends BorderPane {
 	
 	public MainMenuPane() {
 		//setPrefColumns(3);
-		setPadding(new Insets(40));
+		//setPadding(new Insets(40));
 		//setHgap(10);
 		//setVgap(10);
 		

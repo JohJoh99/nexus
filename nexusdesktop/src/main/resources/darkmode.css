@@ -1,3 +1,113 @@
+/*  Weather	 */
+#weather-pane {
+	-fx-background-color: #0a0a0a;
+}
+
+#place-label {
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 26px;
+	-fx-font-weight: bold;
+	-fx-padding: 50px 0 0 50px;
+}
+
+#day-selection {
+	-fx-padding: 20px 50px 20px 50px;
+	-fx-spacing: 50px;
+}
+
+.date-button {
+	-fx-background-color: #161616;
+	-fx-text-fill: #ffffff;
+	-fx-border-color: #313538;
+	-fx-background-radius: 15px;
+	-fx-border-width: 1px;
+	-fx-border-radius: 15px;
+	-fx-font-size: 14px;
+	
+	-fx-min-width: 100px;
+	-fx-min-height: 40px;
+
+	-fx-pref-width: 100px;
+	-fx-pref-height: 40px;
+
+	-fx-max-width: 100px;
+	-fx-max-height: 40px;
+}
+
+#control-pane {
+	-fx-background-color: #0a0a0a;
+	-fx-border-color: #313538;
+	-fx-border-width: 0 0 1px 0;
+}
+
+#top-left-buttons {
+	-fx-spacing: 20;
+}
+
+.menu-list-label {
+	-fx-background-color: #0a0a0a;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 18px;
+	-fx-font-weight: bold;
+}
+
+.menu-list-label:pressed {
+	
+}
+
+#top-right-buttons {
+	-fx-spacing: 0;
+	-fx-padding: 0;
+}
+
+#control-close-button {
+	-fx-background-color: #111114;
+	-fx-text-fill: #ffffff;
+	-fx-background-radius: 0;
+}
+
+#control-close-button:hover {
+	-fx-background-color: #e81123;
+	
+}
+
+#control-close-button:pressed {
+	-fx-background-color: #91111d;
+	
+}
+
+#control-settings-button {
+	-fx-background-color: #111114;
+	-fx-text-fill: #ffffff;
+	-fx-background-radius: 0;
+}
+
+#control-settings-button:hover {
+	-fx-background-color: #29292c;
+	
+}
+
+#control-settings-button:pressed {
+	-fx-background-color: #414143;
+	
+}
+
+#control-minimize-button {
+	-fx-background-color: #111114;
+	-fx-text-fill: #ffffff;
+	-fx-background-radius: 0;
+}
+
+#control-minimize-button:hover {
+	-fx-background-color: #29292c;
+	
+}
+
+#control-minimize-button:pressed {
+	-fx-background-color: #414143;
+	
+}
+
 .menu-frame {
 	-fx-background-color: #161616;
 	-fx-text-fill: #ffffff;
@@ -50,9 +160,9 @@
 }
 
 .settings-header-label {
--fx-text-fill: #ffffff;
--fx-font-size: 20px;
--fx-font-weight: bold;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20px;
+	-fx-font-weight: bold;
 }
 
 #login-center-pane {
