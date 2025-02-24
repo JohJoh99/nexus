@@ -161,7 +161,7 @@ public class ControllPane extends BorderPane {
 			lists = true;
 			listsButton.setBorder(new Border(new BorderStroke(Color.WHITE,
 					BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 0, 2, 0))));
-			NexusDesktop.getRootFrame().setCenter(NexusDesktop.getCalendarPane());
+			NexusDesktop.getRootFrame().setCenter(NexusDesktop.getListPane());
 		});
 		listsButton.setOnMouseEntered(event -> {
 			if(!lists)
