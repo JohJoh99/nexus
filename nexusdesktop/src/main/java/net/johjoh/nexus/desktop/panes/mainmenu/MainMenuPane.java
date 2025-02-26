@@ -1,6 +1,7 @@
-package net.johjoh.nexus.desktop.panes;
+package net.johjoh.nexus.desktop.panes.mainmenu;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -22,16 +23,22 @@ public class MainMenuPane extends BorderPane {
 		secondColumn = new MainMenuColumn();
 		thirdColumn = new MainMenuColumn();
 		
-		MenuFrame a = new MenuFrame("Kachel " + 1, "Dies sind alles tolle Kacheln");
+		WeatherFrame weatherFrame = new WeatherFrame(48.4014, 9.9885, "Ulm");
+		firstColumn.getChildren().add(weatherFrame);
+		
+		CalendarFrame calendarFrame = new CalendarFrame();
+		firstColumn.getChildren().add(calendarFrame);
+		
+		MenuFrame a = new MenuFrame("Kachel " + 1, "Dies sind alles tolle Kacheln", 200);
 		firstColumn.getChildren().add(a);
 		
-		MenuFrame b = new MenuFrame("Kachel " + 2, "Dies sind alles tolle Kacheln");
+		MenuFrame b = new MenuFrame("Kachel " + 2, "Dies sind alles tolle Kacheln", 200);
 		secondColumn.getChildren().add(b);
 		
-		MenuFrame c = new MenuFrame("Kachel " + 3, "Dies sind alles tolle Kacheln");
+		MenuFrame c = new MenuFrame("Kachel " + 3, "Dies sind alles tolle Kacheln", 200);
 		secondColumn.getChildren().add(c);
 		
-		MenuFrame d = new MenuFrame("Kachel " + 4, "Dies sind alles tolle Kacheln");
+		MenuFrame d = new MenuFrame("Kachel " + 4, "Dies sind alles tolle Kacheln", 200);
 		thirdColumn.getChildren().add(d);
 		
 		setLeft(firstColumn);
@@ -52,6 +59,8 @@ public class MainMenuPane extends BorderPane {
 		
 		public MainMenuColumn() {
 			getStyleClass().add("pane-1");
+			
+			setAlignment(Pos.TOP_CENTER);
 		}
 	}
 

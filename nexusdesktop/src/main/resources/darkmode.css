@@ -109,10 +109,43 @@
 }
 
 .menu-frame {
-	-fx-background-color: #161616;
+	-fx-background-color: #222222;
 	-fx-text-fill: #ffffff;
 	-fx-border-color: #313538;
 	-fx-border-width: 2px;
+	-fx-margin: 4px;
+	-fx-padding: 4px;
+}
+
+.pane-1 {
+	-fx-background-color: #0a0a0a;
+	-fx-border-width: 1px;
+	-fx-border-color: #313538;
+	-fx-spacing: 10px;
+	-fx-margin: 10px;
+	-fx-padding: 10px;
+	/* -fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #000030, #000010); */
+}
+
+.pane-1-title {
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 18px;
+	-fx-font-weight: bold;
+}
+
+.pane-1-text {
+	-fx-text-fill: #dddddd;
+}
+
+#temperature-label {
+	-fx-text-fill: #dddddd;
+	-fx-font-size: 36px;
+	-fx-font-weight: bold;
+}
+
+#minmaxtemp-label {
+	-fx-text-fill: #dddddd;
+	-fx-font-size: 20px;
 }
 
 #settings-header {
@@ -123,13 +156,6 @@
 	-fx-border-color: #313538;
 	-fx-border-width: 0 0 1px 0;
 	-fx-pref-width: 80%;
-}
-
-.pane-1 {
--fx-background-color: #0a0a0a;
--fx-border-width: 2px;
--fx-border-color: #313538;
-/* -fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #000030, #000010); */
 }
 
 .button-1 {
@@ -216,68 +242,4 @@
 	-fx-font-size: 24px;
 	-fx-text-fill: white;
 	-fx-font-weight: bold;
-}
-
-/* Hauptansicht */
-.calendar-view {
-    -fx-background-color: #2b2b2b;
-    -fx-text-fill: #ffffff;
-}
-
-/* Tage */
-.calendar-day {
-    -fx-background-color: #3c3f41;
-    -fx-text-fill: #ffffff;
-}
-
-/* Zeitangaben */
-.calendar-time {
-    -fx-background-color: #3c3f41;
-    -fx-text-fill: #ffffff;
-}
-
-/* Einträge */
-.entry-view {
-    -fx-background-color: #3c3f41;
-    -fx-text-fill: #ffffff;
-}
-.entry-title {
-    -fx-text-fill: #ffffff;
-}
-.entry-time {
-    -fx-text-fill: #cccccc;
-}
-
-/* Navigation */
-/*.navigation-bar {
-    -fx-background-color: #1e1e1e;
-}
-.navigation-button {
-    -fx-background-color: #3c3f41;
-    -fx-text-fill: #ffffff;
-}*/
-
-/* Tooltip */
-.tooltip {
-    -fx-background-color: #3c3f41;
-    -fx-text-fill: #ffffff;
-}
-.tooltip-content {
-    -fx-text-fill: #ffffff;
-}
-
-/* Kopfzeilen */
-.day-header, .week-header, .month-header {
-    -fx-background-color: #1e1e1e;
-    -fx-text-fill: #ffffff;
-}
-
-/* Weitere Elemente */
-.calendar-header {
-    -fx-background-color: #1e1e1e;
-    -fx-text-fill: #ffffff;
-}
-.calendar-footer {
-    -fx-background-color: #1e1e1e;
-    -fx-text-fill: #ffffff;
 }

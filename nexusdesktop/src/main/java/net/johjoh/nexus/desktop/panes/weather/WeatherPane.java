@@ -1,15 +1,11 @@
 package net.johjoh.nexus.desktop.panes.weather;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -19,11 +15,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import net.johjoh.nexus.desktop.util.WeatherUtil;
 
 public class WeatherPane extends VBox {
-	
-	//	https://api.brightsky.dev/weather?lat=48.4014&lon=9.9885&date=2025-02-08
-	private String weatherRequest = "https://api.brightsky.dev/weather?lat=%1&lon=%2&date=%3";
 	
 	private String place = "Ulm";
 	private String day = "Heute";
@@ -53,7 +47,8 @@ public class WeatherPane extends VBox {
 	
 	private void changeDay(int daysFromToday) {
 		LocalDate today = LocalDate.now().plusDays(daysFromToday);
-		JsonNode weather = getWeather(getWeatherRequestString(lat, lon, today));
+		WeatherUtil.refreshWeather(lat, lon, today);
+		JsonNode weather = WeatherUtil.getWeather();
 		if(weather == null)
 			return;
 		
@@ -104,7 +99,8 @@ public class WeatherPane extends VBox {
 	
 	private void addNodes() {
 		LocalDate today = LocalDate.now();
-		JsonNode weather = getWeather(getWeatherRequestString(lat, lon, today));
+		WeatherUtil.refreshWeather(lat, lon, today);
+		JsonNode weather = WeatherUtil.getWeather();
 		if(weather == null)
 			return;
 		
@@ -218,34 +214,6 @@ public class WeatherPane extends VBox {
 		//Label l = new Label();
 		//l.setText(getWeather(getWeatherRequestString(48.4014, 9.9885, new Date())));
 		//setCenter(l);
-	}
-	
-	public JsonNode getWeather(String request) {
-		JsonNode weather = null;
-		//new Thread(() -> {
-			try {
-				URL url = new URL(request);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("GET");
-                InputStream is = conn.getInputStream();
-                ObjectMapper mapper = new ObjectMapper();
-                JsonNode root = mapper.readTree(is);
-				
-                weather = root.path("weather");
-                //String summary = weather.path("condition").asText();
-                //double temperature = weather.path("temperature").asDouble();
-                
-                //sum = String.format("Aktuelle Temperatur: %.1f°C\nBedingung: %s", temperature, summary);
-			} catch (Exception e) {
-				return null;
-			}
-		//}).start();
-        return weather;
-	}
-	
-	public String getWeatherRequestString(double lat, double lon, LocalDate date) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		return weatherRequest.replace("%1", String.valueOf(lat)).replace("%2", String.valueOf(lon)).replace("%3", formatter.format(date));
 	}
 	
 	private class WHBox extends HBox {

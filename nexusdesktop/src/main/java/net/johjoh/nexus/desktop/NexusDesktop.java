@@ -11,14 +11,15 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import net.johjoh.nexus.desktop.cloud.NexusDesktopCloudClient;
-import net.johjoh.nexus.desktop.panes.CalendarPane;
 import net.johjoh.nexus.desktop.panes.ControllPane;
 import net.johjoh.nexus.desktop.panes.LoginPane;
-import net.johjoh.nexus.desktop.panes.MainMenuPane;
 import net.johjoh.nexus.desktop.panes.RootFrame;
 import net.johjoh.nexus.desktop.panes.SettingsPane;
+import net.johjoh.nexus.desktop.panes.calendar.CalendarPane;
 import net.johjoh.nexus.desktop.panes.lists.ListPane;
+import net.johjoh.nexus.desktop.panes.mainmenu.MainMenuPane;
 import net.johjoh.nexus.desktop.panes.weather.WeatherPane;
+import net.johjoh.nexus.desktop.util.SSLUtil;
 import net.johjoh.nexus.desktop.util.Settings;
 
 public class NexusDesktop extends Application {
@@ -38,6 +39,8 @@ public class NexusDesktop extends Application {
 	private static ListPane listPane;
 
 	public static void main(String[] args) {
+		
+		SSLUtil.disableSSLVerification();
 		
 		Properties props = Settings.loadProperties();
 		Settings.loadSettings(props);
@@ -107,6 +110,7 @@ public class NexusDesktop extends Application {
 		Scene scene = new Scene(mainPane);
 
 		scene.getStylesheets().add(getClass().getResource("/darkmode.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/calendar_dark_mode.css").toExternalForm());
 		
 		primaryStage.setTitle("Nexus");
 		primaryStage.setScene(scene);

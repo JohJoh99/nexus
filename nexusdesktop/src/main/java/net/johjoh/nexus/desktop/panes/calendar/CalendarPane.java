@@ -1,4 +1,4 @@
-package net.johjoh.nexus.desktop.panes;
+package net.johjoh.nexus.desktop.panes.calendar;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -14,13 +14,14 @@ public class CalendarPane extends CalendarView {
 	
 	public CalendarPane() {
 		
-		getStylesheets().add(getClass().getResource("/darkmode.css").toExternalForm());
+		//getStylesheets().add(getClass().getResource("/darkmode.css").toExternalForm());
+		//getStylesheets().add(getClass().getResource("/calendar_dark_mode.css").toExternalForm());
 
 		Calendar birthdays = new Calendar("Birthdays");
 		Calendar holidays = new Calendar("Holidays");
 
 		birthdays.setStyle(Style.STYLE1);
-		holidays.setStyle(Style.STYLE2);
+		holidays.setStyle(Style.STYLE7);
 
 		CalendarSource myCalendarSource = new CalendarSource("My Calendars");
 		myCalendarSource.getCalendars().addAll(birthdays, holidays);
