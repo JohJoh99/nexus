@@ -37,8 +37,12 @@ public class NexusDesktop extends Application {
 	private static LoginPane loginPane;
 	private static WeatherPane weatherPane;
 	private static ListPane listPane;
+	
+	public static int USERID;
 
 	public static void main(String[] args) {
+		
+		USERID = 0;
 		
 		SSLUtil.disableSSLVerification();
 		

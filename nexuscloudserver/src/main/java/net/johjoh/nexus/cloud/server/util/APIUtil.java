@@ -1,4 +1,4 @@
-package net.johjoh.cloud.util;
+package net.johjoh.nexus.cloud.server.util;
 
 import java.util.ArrayList;
 import java.util.Collection;

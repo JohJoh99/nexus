@@ -2,15 +2,8 @@ package net.johjoh.nexus.cloud.api.client;
 
 public enum ClientType {
 
-	SUB_SERVER(0),
-	BUNGEE_CORD(1),
-	HUB(2),
-	GAME_SERVER(3),
-	CUSTOM_SERVER(4),
-	USER_SERVER(5),
-	MODDED_SERVER(6),
-	WEB_CLIENT(7),
-	NEXUS_DESKTOP(10);
+	NEXUS_DESKTOP(0),
+	WEB_CLIENT(1);
 
 	private int id;
 

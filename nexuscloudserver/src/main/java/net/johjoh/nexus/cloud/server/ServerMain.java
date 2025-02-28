@@ -8,21 +8,15 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.crypto.NoSuchPaddingException;
 
-import net.johjoh.cloud.client.ServerType;
-import net.johjoh.cloud.client.SoftwareType;
-import net.johjoh.cloud.handling.HeidyServer;
 import net.johjoh.cloud.tablestorage.TableStorage;
 import net.johjoh.nexus.cloud.api.CloudSecurity;
 import net.johjoh.nexus.cloud.server.bashserver.BashServer;
@@ -33,8 +27,6 @@ import net.johjoh.nexus.cloud.server.logging.ManagedFileOutputStream;
 import net.johjoh.nexus.cloud.server.logging.TeePrintStream;
 import net.johjoh.nexus.cloud.server.util.CreateTables;
 import net.johjoh.sqltools.MySQLConnectionUtils;
-import net.johjoh.sqltools.SQLTools;
-import net.johjoh.sqltools.SQLUtil;
 
 public class ServerMain {
 	
@@ -197,65 +189,7 @@ public class ServerMain {
 		BashServer.setInstance(new BashServer(Integer.parseInt(props.getProperty("bash-server-port")), props.getProperty("bash-server-password")));
 		BashServer.getInstance().start();
 		
-		
-		
-		
-		
-//		try {
-//			startServers();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
 	}
-	
-//	private static List<HeidyServer> loadServers() throws IOException {
-//		
-//		List<HeidyServer> servers = new ArrayList<HeidyServer>();
-//		
-//		Connection con = null;
-//		
-//		try {
-//			con  = MySQLConnectionUtils.getNewConnection();
-//			
-//			ResultSet rs = MySQLUtil.selectAll(MySQLAPI.TABLE_SERVERS, con);
-//			while(rs.next()) {
-//				HeidyServer hs = new HeidyServer(rs.getString(MySQLAPI.COLUMN_NAME), FileStorage.getRootServer(rs.getInt(MySQLAPI.COLUMN_ROOT_SERVER)).getIP(), rs.getInt(MySQLAPI.COLUMN_PORT), SoftwareType.fromId(rs.getInt(MySQLAPI.COLUMN_SOFTWARE_TYPE)).getTag(), ServerType.fromName(rs.getString(MySQLAPI.COLUMN_SERVER_TYPE)).getPrefix());
-//				servers.add(hs);
-//			}
-//			
-////			ResultSet rs2 = MySQLUtil.selectAll(MySQLAPI.TABLE_SERVERS, MySQLAPI.COLUMN_SERVER_TYPE, ServerType.BUNGEE_CORD.getPrefix(), con);
-////			while(rs2.next()) {
-////				BungeeServer bs = new BungeeServer(rs2.getString(MySQLAPI.COLUMN_NAME), FileStorage.getMainRootServer().getPath());
-////				bs.startServer();
-////			}
-////			rs2.close();
-////			
-////			ResultSet rs3 = MySQLUtil.selectAll(MySQLAPI.TABLE_SERVERS, MySQLAPI.COLUMN_SERVER_TYPE, ServerType.HUB.getPrefix(), con);
-////			while(rs3.next()) {
-////				SpigotServer bs = new SpigotServer(rs3.getString(MySQLAPI.COLUMN_NAME), FileStorage.getMainRootServer().getPath());
-////				bs.startServer();
-////			}
-////			rs3.close();
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		MySQLConnectionUtils.closeConnection(con);
-//		
-//		return servers;
-//		
-//	}
 	
 	private static String packLog() {
 		File latestLog = new File("latest.log");

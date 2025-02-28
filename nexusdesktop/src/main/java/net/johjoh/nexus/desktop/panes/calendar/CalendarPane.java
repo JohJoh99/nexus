@@ -3,12 +3,10 @@ package net.johjoh.nexus.desktop.panes.calendar;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.calendarfx.model.Calendar;
-import com.calendarfx.model.Calendar.Style;
-import com.calendarfx.model.CalendarSource;
 import com.calendarfx.view.CalendarView;
 
 import javafx.application.Platform;
+import net.johjoh.nexus.desktop.util.CalendarUtil;
 
 public class CalendarPane extends CalendarView {
 	
@@ -17,16 +15,17 @@ public class CalendarPane extends CalendarView {
 		//getStylesheets().add(getClass().getResource("/darkmode.css").toExternalForm());
 		//getStylesheets().add(getClass().getResource("/calendar_dark_mode.css").toExternalForm());
 
-		Calendar birthdays = new Calendar("Birthdays");
-		Calendar holidays = new Calendar("Holidays");
+		//Calendar birthdays = new Calendar("Birthdays");
+		//Calendar holidays = new Calendar("Holidays");
 
-		birthdays.setStyle(Style.STYLE1);
-		holidays.setStyle(Style.STYLE7);
+		//birthdays.setStyle(Style.STYLE1);
+		//holidays.setStyle(Style.STYLE7);
 
-		CalendarSource myCalendarSource = new CalendarSource("My Calendars");
-		myCalendarSource.getCalendars().addAll(birthdays, holidays);
+		//CalendarSource myCalendarSource = new CalendarSource("My Calendars");
+		//myCalendarSource.getCalendars().addAll(birthdays, holidays);
 
-		getCalendarSources().addAll(myCalendarSource);
+		getCalendarSources().addAll(CalendarUtil.getCalendarSources());
+		getCalendarSources().clear();
 
 		setRequestedTime(LocalTime.now());
 

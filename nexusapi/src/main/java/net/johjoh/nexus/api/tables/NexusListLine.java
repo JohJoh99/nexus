@@ -8,12 +8,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "list")
-public class NexusList {
+@Table(name = "list_line")
+public class NexusListLine {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+    @Column(name = "list_id", nullable = false)
+	private int listId;
 
     @Column(name = "title", nullable = false, length = 32)
     private String title;
@@ -23,13 +26,8 @@ public class NexusList {
     
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
-	
-	public enum ListType {
-		
-			SHOPPING_LIST,
-			TODO_LIST,
-			OTHER;
-		
-	}
+    
+    public int getListId() { return listId; }
+    public void setListId(int listId) { this.listId = listId; }
 
 }

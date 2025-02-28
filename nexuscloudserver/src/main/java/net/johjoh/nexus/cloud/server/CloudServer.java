@@ -103,7 +103,6 @@ public class CloudServer extends Thread {
 	
 	public void stopServer() throws IOException {
 		canAcceptConnections = false;
-		ServerHandler.disableStart();
 		Logger.log("Disconnecting connections...");
 		disconnectAll("Server Shutdown");
 		try {
@@ -112,7 +111,6 @@ public class CloudServer extends Thread {
 		catch (InterruptedException e) {}
 		serverSocket.close();
 		Logger.log("Server closed!");
-		Logger.log("Saving GameID Counters...");
 		PacketListenerManager.getInstance().unregisterAll();
 	}
 	

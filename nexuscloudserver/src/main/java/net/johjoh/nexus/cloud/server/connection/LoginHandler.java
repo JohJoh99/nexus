@@ -95,42 +95,12 @@ public class LoginHandler extends Thread {
 						
 							if(clientType != null) {
 								AbstractClientConnection c = null;
-								if(clientType == ClientType.SUB_SERVER) {
-									c = new SubConnection(username, clientType, encrypt, clientSocket, dataOutput, dataInput);
-								}
-								else if(clientType == ClientType.BUNGEE_CORD) {
-									c = new BungeeConnection(username, clientType, encrypt, clientSocket, dataOutput, dataInput);
-								}
-								else if(clientType == ClientType.HUB) {
-									c = new HubConnection(username, clientType, encrypt, clientSocket, dataOutput, dataInput);
-								}
-								else if(clientType == ClientType.GAME_SERVER) {
-									c = new GameConnection(username, clientType, encrypt, clientSocket, dataOutput, dataInput);
-								}
-								else if(clientType == ClientType.CUSTOM_SERVER) {
-									c = new CustomConnection(username, clientType, encrypt, clientSocket, dataOutput, dataInput);
-									
-									if(pcl.getUsername().equalsIgnoreCase("MAPCONVERTER")) {
-										AbstractClientConnection con = CloudServer.getInstance().getConnection("BUILD");
-										if(con != null)
-											con.sendPacket(pcl);
-									}
-								}
-								else if(clientType == ClientType.USER_SERVER) {
-									c = new UserServerConnection(username, clientType, encrypt, clientSocket, dataOutput, dataInput);
-								}
-								else if(clientType == ClientType.MODDED_SERVER) {
-									c = new ModdedServerConnection(username, clientType, encrypt, clientSocket, dataOutput, dataInput);
+								if(clientType == ClientType.NEXUS_DESKTOP) {
+									c = new NexusDesktopConnection(username, clientType, encrypt, clientSocket, dataOutput, dataInput);
 								}
 								else if(clientType == ClientType.WEB_CLIENT) {
 									c = new WebClientConnection(username, clientType, encrypt, clientSocket, dataOutput, dataInput);
 								}
-								/*else if(clientType == ClientType.GAME_SERVER) {
-									c = new GameServer(username, clientType, clientSocket, dataOutput, dataInput);
-								}
-								else if(clientType == ClientType.BUNGEE_CORD) {
-									c = new BungeeCord(username, clientType, clientSocket, dataOutput, dataInput);
-								}*/
 								
 								boolean loginSuccess = CloudServer.getInstance().addConnection(c);
 								if(loginSuccess) {
