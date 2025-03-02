@@ -19,6 +19,7 @@ import net.johjoh.nexus.desktop.panes.calendar.CalendarPane;
 import net.johjoh.nexus.desktop.panes.lists.ListPane;
 import net.johjoh.nexus.desktop.panes.mainmenu.MainMenuPane;
 import net.johjoh.nexus.desktop.panes.weather.WeatherPane;
+import net.johjoh.nexus.desktop.util.CalendarUtil;
 import net.johjoh.nexus.desktop.util.SSLUtil;
 import net.johjoh.nexus.desktop.util.Settings;
 
@@ -42,15 +43,19 @@ public class NexusDesktop extends Application {
 
 	public static void main(String[] args) {
 		
+		//String passwordHash = LoginUtil.hashPasswordForTransfer("1234", "Meersalz");
+		//System.out.println(passwordHash);
+		
 		USERID = 0;
+		CalendarUtil.initCalendars();
 		
 		SSLUtil.disableSSLVerification();
 		
 		Properties props = Settings.loadProperties();
 		Settings.loadSettings(props);
 		
-		cloudClient = new NexusDesktopCloudClient("NEXUSDESKTOP-1337", Settings.getServerIP(), Settings.getServerPassword(), Settings.getServerPort());
-		new Thread(cloudClient).start();;
+		cloudClient = new NexusDesktopCloudClient("NEXUSDESKTOP-1337", Settings.getServerPassword(), Settings.getServerIP(), Settings.getServerPort());
+		new Thread(cloudClient).start();
 		
 		createPanes();
 		launch(args);
@@ -69,6 +74,7 @@ public class NexusDesktop extends Application {
 	}
 	
 	public static Application getInstance() { return instance; }
+	public static NexusDesktopCloudClient getCloudClient() { return cloudClient; }
 	public static Stage getPrimaryStageInstance() { return primaryStageInstance; }
 	
 	public static MainMenuPane getMainMenuPane() { return mainMenuPane; }

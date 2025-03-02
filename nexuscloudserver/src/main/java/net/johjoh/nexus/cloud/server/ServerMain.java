@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -17,7 +15,11 @@ import java.util.zip.ZipOutputStream;
 
 import javax.crypto.NoSuchPaddingException;
 
-import net.johjoh.cloud.tablestorage.TableStorage;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import net.johjoh.nexus.api.sql.HibernateUtil;
+import net.johjoh.nexus.api.tables.NexusUser;
 import net.johjoh.nexus.cloud.api.CloudSecurity;
 import net.johjoh.nexus.cloud.server.bashserver.BashServer;
 import net.johjoh.nexus.cloud.server.console.Console;
@@ -25,8 +27,6 @@ import net.johjoh.nexus.cloud.server.logging.Level;
 import net.johjoh.nexus.cloud.server.logging.Logger;
 import net.johjoh.nexus.cloud.server.logging.ManagedFileOutputStream;
 import net.johjoh.nexus.cloud.server.logging.TeePrintStream;
-import net.johjoh.nexus.cloud.server.util.CreateTables;
-import net.johjoh.sqltools.MySQLConnectionUtils;
 
 public class ServerMain {
 	
@@ -38,8 +38,29 @@ public class ServerMain {
 	
 	public static void main(String[] args) {
 		
+		//	Load Hibernate
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		
+        /*try {
+            session.beginTransaction();
+
+            NexusUser user = new NexusUser("JohJoh", "joshfrank4@outlook.com", "j9cdtrnj", "salt");
+            session.persist(user);
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+            sessionFactory.close();
+        }*/
+		
 		//  Load MySQL Config
-		MySQLConnectionUtils.reloadCfgFromProperties();
+		//MySQLConnectionUtils.reloadCfgFromProperties();
 		
 		//  Load/Register jdbc
 		try {
@@ -70,7 +91,7 @@ public class ServerMain {
 		}
 		
 		//  Create SQL Tables
-		Connection con = null;
+		/*Connection con = null;
 		try {
 			con = MySQLConnectionUtils.getNewConnection();
 		} catch (SQLException e) {
@@ -86,7 +107,7 @@ public class ServerMain {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		MySQLConnectionUtils.closeConnection(con);
+		MySQLConnectionUtils.closeConnection(con);*/
 		
 		//	Creates Source Folders
 		File serverParent = new File(lockFile.getAbsolutePath()).getParentFile().getParentFile();
@@ -184,7 +205,7 @@ public class ServerMain {
 		CloudServer.setInstance(new CloudServer(Integer.parseInt(props.getProperty("server-port")), props.getProperty("server-password")));
 		CloudServer.getInstance().start();
 		
-		MySQLConnectionUtils.closeConnection(con);
+		//MySQLConnectionUtils.closeConnection(con);
 		
 		BashServer.setInstance(new BashServer(Integer.parseInt(props.getProperty("bash-server-port")), props.getProperty("bash-server-password")));
 		BashServer.getInstance().start();

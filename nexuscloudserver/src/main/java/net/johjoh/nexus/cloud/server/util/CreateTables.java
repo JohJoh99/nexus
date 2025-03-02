@@ -1,11 +1,8 @@
 package net.johjoh.nexus.cloud.server.util;
 
-import static net.johjoh.sqltools.SQLTools.*;
+//import static net.johjoh.sqltools.SQLTools.*;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import net.johjoh.sqltools.TableCreator;
+//import net.johjoh.sqltools.TableCreator;
 
 public class CreateTables {
 	
@@ -16,7 +13,7 @@ public class CreateTables {
 	//	Große Projekte -> InnoDB
 	//	Kleine Projekte -> MyISAM
 	
-	public static void createAllTables(Connection con) throws SQLException {
+	/*public static void createAllTables(Connection con) throws SQLException {
 		createUsersTable(con);
 		createMapTable(con);
 		createMotdTable(con);
@@ -301,6 +298,6 @@ public class CreateTables {
 
 
 		con.prepareStatement(tc.getStatement()).execute();
-	}
+	}*/
 
 }

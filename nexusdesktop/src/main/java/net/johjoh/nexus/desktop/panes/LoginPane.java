@@ -15,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import net.johjoh.nexus.desktop.NexusDesktop;
+import net.johjoh.nexus.desktop.util.LoginUtil;
 
 public class LoginPane extends BorderPane {
 
@@ -35,6 +36,10 @@ public class LoginPane extends BorderPane {
 		setTop(loginControllPane);
 		setCenter(loginCenterPane);
 		setBottom(serverSettingsLoginPane);
+	}
+	
+	public LoginCenterPane getLoginCenterPane() {
+		return this.loginCenterPane;
 	}
 
 	public class LoginControllPane extends HBox {
@@ -59,11 +64,12 @@ public class LoginPane extends BorderPane {
 		}
 	}
 
-	private class LoginCenterPane extends VBox {
+	public class LoginCenterPane extends VBox {
 
 		private Label loginLabel;
 		private TextField usernameField;
 		private PasswordField passwordField;
+		private Label loginFailedLabel;
 		private Button loginButton;
 
 		public LoginCenterPane() {
@@ -84,17 +90,27 @@ public class LoginPane extends BorderPane {
 			passwordField.getStyleClass().add("login-text-field");
 			passwordField.setPromptText("Passwort");
 			getChildren().add(passwordField);
+			
+			loginFailedLabel = new Label("Falscher Nutzername oder Passwort");
+			loginFailedLabel.setId("login-failed-label");
+			loginFailedLabel.setVisible(false);
+			getChildren().add(loginFailedLabel);
 
 			loginButton = new Button("\u2794");
 			loginButton.setId("login-button");
 			loginButton.setOnMouseReleased(new EventHandler<MouseEvent>() {
 				public void handle(MouseEvent event) {
-		            NexusDesktop.getLoginPane().setVisible(false);
-		            NexusDesktop.getOverlayPane().setVisible(false);
+		            //NexusDesktop.getLoginPane().setVisible(false);
+		            //NexusDesktop.getOverlayPane().setVisible(false);
+					LoginUtil.sendLoginRequest(usernameField.getText(), passwordField.getText());
 				}
 			});
 			getChildren().add(loginButton);
 
+		}
+		
+		public void loginFailed() {
+			loginFailedLabel.setVisible(true);
 		}
 
 	}

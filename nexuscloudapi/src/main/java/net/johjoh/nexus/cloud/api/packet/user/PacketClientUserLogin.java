@@ -1,6 +1,5 @@
 package net.johjoh.nexus.cloud.api.packet.user;
 
-import net.johjoh.nexus.cloud.api.client.ClientType;
 import net.johjoh.nexus.cloud.api.packet.Packet;
 import net.johjoh.nexus.cloud.api.packet.PacketType;
 
@@ -13,7 +12,7 @@ public class PacketClientUserLogin extends Packet {
 		super(PacketType.CLIENT_USER_LOGIN);
 	}
 	
-	public PacketClientUserLogin(String username, String passwordHash, ClientType clientType) {
+	public PacketClientUserLogin(String username, String passwordHash) {
 		super(PacketType.CLIENT_USER_LOGIN);
 		setObject(USERNAME, username);
 		setObject(PASSWORD_HASH, passwordHash);

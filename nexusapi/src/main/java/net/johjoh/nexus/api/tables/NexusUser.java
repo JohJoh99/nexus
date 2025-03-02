@@ -8,17 +8,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "user")
+@Table(name = "nexus_user")
 public class NexusUser {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-    @Column(name = "username", nullable = false, length = 24)
+    @Column(name = "username", nullable = false, length = 24, unique = true)
     private String username;
 
-    @Column(name = "email", nullable = true, length = 320)
+    @Column(name = "email", nullable = true, length = 320, unique = true)
     private String email;
 
     //	password max. 256 chars / length incl. salt
@@ -33,6 +33,15 @@ public class NexusUser {
 
     @Column(name = "surname", nullable = true, length = 50)
     private String surname;
+    
+    public NexusUser() {}
+
+    public NexusUser(String username, String email, String passwordHash, String passwordSalt) {
+        this.username = username;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.passwordSalt = passwordSalt;
+    }
     
     public int getId() {
         return id;

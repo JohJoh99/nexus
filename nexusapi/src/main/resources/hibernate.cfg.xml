@@ -1,0 +1,23 @@
+<hibernate-configuration>
+    <session-factory>
+        <!-- Datenbankverbindung -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://192.168.178.18:3306/nexus</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">j9cdtrnj</property>
+
+        <!-- Hikari als Connection Pool -->
+        <property name="hibernate.hikari.maximumPoolSize">10</property>
+        <property name="hibernate.hikari.minimumIdle">2</property>
+        
+        <!-- Dialekt für MySQL -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <!-- Automatische Schema-Erstellung -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- SQL-Logging aktivieren -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+    </session-factory>
+</hibernate-configuration>

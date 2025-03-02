@@ -6,6 +6,11 @@
 	<name>NexusAPI</name>
 	
 	<dependencies>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>6.2.1</version>
+        </dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -16,6 +21,11 @@
 			<artifactId>hibernate-hikaricp</artifactId>
 			<version>7.0.0.Beta3</version> <!-- Ensure version is the same as hibernate-core -->
 		</dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
 	</dependencies>
 	
 </project>

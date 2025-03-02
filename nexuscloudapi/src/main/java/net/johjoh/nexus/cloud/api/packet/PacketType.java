@@ -18,7 +18,9 @@ import net.johjoh.nexus.cloud.api.packet.general.PacketGeneralLogout;
 import net.johjoh.nexus.cloud.api.packet.general.PacketServerGeneralHandshake;
 import net.johjoh.nexus.cloud.api.packet.general.PacketServerGeneralLoginResponse;
 import net.johjoh.nexus.cloud.api.packet.general.PacketServerGeneralPublicKey;
+import net.johjoh.nexus.cloud.api.packet.user.PacketClientRequestPasswordSalt;
 import net.johjoh.nexus.cloud.api.packet.user.PacketClientUserLogin;
+import net.johjoh.nexus.cloud.api.packet.user.PacketServerPasswordSaltResponse;
 import net.johjoh.nexus.cloud.api.packet.user.PacketServerUserLoginResponse;
 
 /**
@@ -84,6 +86,10 @@ public enum PacketType {
 	CLIENT_USER_LOGIN(50, PacketClientUserLogin.class, WEB_CLIENT, CLIENT),
 	
 	SERVER_USER_LOGIN_RESPONSE(51, PacketServerUserLoginResponse.class, WEB_CLIENT, SERVER),
+	
+	CLIENT_REQUEST_PASSWORD_SALT(52, PacketClientRequestPasswordSalt.class, WEB_CLIENT, CLIENT),
+	
+	SERVER_PASSWORD_SALT_RESPONSE(53, PacketServerPasswordSaltResponse.class, WEB_CLIENT, SERVER),
 	
 	;
 	
