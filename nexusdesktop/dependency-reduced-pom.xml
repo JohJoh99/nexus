@@ -20,7 +20,7 @@
               <createDependencyReducedPom>true</createDependencyReducedPom>
               <transformers>
                 <transformer>
-                  <mainClass>net.johjoh.nexusdesktop.NexusDesktop</mainClass>
+                  <mainClass>net.johjoh.nexus.desktop.NexusDesktop</mainClass>
                 </transformer>
               </transformers>
             </configuration>
@@ -32,7 +32,7 @@
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.8</version>
         <configuration>
-          <mainClass>net.johjoh.nexusdesktop.NexusDesktop</mainClass>
+          <mainClass>net.johjoh.nexus.desktop.NexusDesktop</mainClass>
         </configuration>
       </plugin>
     </plugins>

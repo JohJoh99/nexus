@@ -28,8 +28,8 @@ public class PacketClientDataRequest extends Packet {
 		setObject(REQUEST, request);
 	}
 	
-	public String getSessionUUID() {
-		return getObjectAsString(SESSIONUUID);
+	public UUID getSessionUUID() {
+		return getObjectAsUUID(SESSIONUUID);
 	}
 	
 	public String getRequest() {
@@ -38,7 +38,7 @@ public class PacketClientDataRequest extends Packet {
 
 	@Override
 	public boolean isValid() {
-		String sessionUUID = getSessionUUID();
+		UUID sessionUUID = getSessionUUID();
 		String request = getRequest();
 		
 		return sessionUUID != null && request != null;

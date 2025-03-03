@@ -6,10 +6,14 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import com.calendarfx.model.Calendar;
+import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import net.johjoh.nexus.cloud.api.packet.data.PacketClientDataUpdate;
 import net.johjoh.nexus.desktop.NexusDesktop;
 
 public class CalendarUtil {
@@ -41,6 +45,11 @@ public class CalendarUtil {
     	int ownerId = head.get("ownerId").asInt();
 
 		Calendar<String> calendar = new Calendar<String>(calendarTitle);
+		
+        calendar.addEventHandler(CalendarEvent.ENTRY_CHANGED, event -> {
+            Entry<?> entry = event.getEntry();
+            saveEntry(entry);
+        });
 		
         if (lines.isArray()) {
             for (JsonNode node : lines) {
@@ -77,6 +86,44 @@ public class CalendarUtil {
 
         
 	}
+	
+    private static void saveEntry(Entry<?> entry) {
+
+    	ObjectNode rootNode = null;
+    	
+        try {
+            // Erstelle einen ObjectMapper
+            ObjectMapper mapper = new ObjectMapper();
+
+            // Erstelle das root ObjectNode
+            rootNode = mapper.createObjectNode();
+            rootNode.put("table", "calendar");
+            rootNode.put("type", "line");
+
+            // Erstelle das content ObjectNode
+            ObjectNode contentNode = mapper.createObjectNode();
+            contentNode.put("id", Integer.valueOf(entry.getId().split("_")[1]));
+            contentNode.put("name", entry.getTitle());
+            contentNode.put("place", entry.getLocation());
+            contentNode.put("all_day", entry.isFullDay());
+
+            // Konvertiere LocalDateTime in das gewünschte Format
+            LocalDateTime startDateTime = LocalDateTime.of(2025, 2, 28, 14, 54, 59);
+            LocalDateTime endDateTime = LocalDateTime.of(2025, 2, 28, 14, 54, 59);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            contentNode.put("start_datetime", startDateTime.format(formatter));
+            contentNode.put("end_datetime", endDateTime.format(formatter));
+
+            // Füge das content ObjectNode zum rootNode hinzu
+            rootNode.set("content", contentNode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        
+    	PacketClientDataUpdate pcdu = new PacketClientDataUpdate(NexusDesktop.getCloudClient().getSessionId(), rootNode.toString());
+    	NexusDesktop.getCloudClient().sendPacket(pcdu);
+    }
 	
 	
 	/*CalendarSource myCalendarSource = new CalendarSource("My Calendars");

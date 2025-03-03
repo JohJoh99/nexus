@@ -1,3 +1,20 @@
+/* Lists */
+#list-pane {
+	-fx-background-color: #0a0a0a;
+}
+
+.list-title-label {
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20px;
+	-fx-font-weight: bold;
+}
+
+.list-entry-label {
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 14px;
+	-fx-font-weight: bold;
+}
+
 /*  Weather	 */
 #weather-pane {
 	-fx-background-color: #0a0a0a;
@@ -224,17 +241,17 @@
 	-fx-background-color: #222222;
 }
 
-#server-settings-label {
+.login-label-button {
 	-fx-text-fill: #ffffff;
 	-fx-underline: true;
 	-fx-padding: 10px;
 }
 
-#server-settings-label:hover {
+.login-label-button:hover {
 	-fx-text-fill: #aaaaaa;
 }
 
-#server-settings-label:pressed {
+.login-label-button:pressed {
 	-fx-text-fill: #555555;
 }
 
@@ -242,4 +259,9 @@
 	-fx-font-size: 24px;
 	-fx-text-fill: white;
 	-fx-font-weight: bold;
+}
+
+#login-seperator {
+-fx-text-fill: #ffffff;
+-fx-font-weight: bold;
 }

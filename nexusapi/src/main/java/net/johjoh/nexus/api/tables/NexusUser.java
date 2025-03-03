@@ -36,9 +36,8 @@ public class NexusUser {
     
     public NexusUser() {}
 
-    public NexusUser(String username, String email, String passwordHash, String passwordSalt) {
+    public NexusUser(String username, String passwordHash, String passwordSalt) {
         this.username = username;
-        this.email = email;
         this.passwordHash = passwordHash;
         this.passwordSalt = passwordSalt;
     }

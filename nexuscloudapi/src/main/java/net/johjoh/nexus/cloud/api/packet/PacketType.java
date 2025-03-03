@@ -8,6 +8,7 @@ import static net.johjoh.nexus.cloud.api.packet.PacketType.PacketCategory.WEB_CL
 import java.lang.reflect.InvocationTargetException;
 
 import net.johjoh.nexus.cloud.api.packet.data.PacketClientDataRequest;
+import net.johjoh.nexus.cloud.api.packet.data.PacketClientDataUpdate;
 import net.johjoh.nexus.cloud.api.packet.data.PacketServerDataResponse;
 import net.johjoh.nexus.cloud.api.packet.general.PacketClientGeneralBroadcast;
 import net.johjoh.nexus.cloud.api.packet.general.PacketClientGeneralHandshake;
@@ -20,8 +21,10 @@ import net.johjoh.nexus.cloud.api.packet.general.PacketServerGeneralLoginRespons
 import net.johjoh.nexus.cloud.api.packet.general.PacketServerGeneralPublicKey;
 import net.johjoh.nexus.cloud.api.packet.user.PacketClientRequestPasswordSalt;
 import net.johjoh.nexus.cloud.api.packet.user.PacketClientUserLogin;
+import net.johjoh.nexus.cloud.api.packet.user.PacketClientUserRegistration;
 import net.johjoh.nexus.cloud.api.packet.user.PacketServerPasswordSaltResponse;
 import net.johjoh.nexus.cloud.api.packet.user.PacketServerUserLoginResponse;
+import net.johjoh.nexus.cloud.api.packet.user.PacketServerUserRegistrationResponse;
 
 /**
  * Enumeration containing all packets
@@ -83,6 +86,8 @@ public enum PacketType {
 	
 	SERVER_DATA_RESPONSE(41, PacketServerDataResponse.class, WEB_CLIENT, SERVER),
 	
+	CLIENT_DATA_UPDATE(42, PacketClientDataUpdate.class, WEB_CLIENT, CLIENT),
+	
 	CLIENT_USER_LOGIN(50, PacketClientUserLogin.class, WEB_CLIENT, CLIENT),
 	
 	SERVER_USER_LOGIN_RESPONSE(51, PacketServerUserLoginResponse.class, WEB_CLIENT, SERVER),
@@ -90,6 +95,10 @@ public enum PacketType {
 	CLIENT_REQUEST_PASSWORD_SALT(52, PacketClientRequestPasswordSalt.class, WEB_CLIENT, CLIENT),
 	
 	SERVER_PASSWORD_SALT_RESPONSE(53, PacketServerPasswordSaltResponse.class, WEB_CLIENT, SERVER),
+	
+	CLIENT_USER_REGISTRATION(54, PacketClientUserRegistration.class, WEB_CLIENT, CLIENT),
+	
+	SERVER_USER_REGISTRATION_RESPONSE(55, PacketServerUserRegistrationResponse.class, WEB_CLIENT, SERVER),
 	
 	;
 	

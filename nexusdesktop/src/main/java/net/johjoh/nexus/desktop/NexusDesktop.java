@@ -12,11 +12,12 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import net.johjoh.nexus.desktop.cloud.NexusDesktopCloudClient;
 import net.johjoh.nexus.desktop.panes.ControllPane;
-import net.johjoh.nexus.desktop.panes.LoginPane;
 import net.johjoh.nexus.desktop.panes.RootFrame;
 import net.johjoh.nexus.desktop.panes.SettingsPane;
 import net.johjoh.nexus.desktop.panes.calendar.CalendarPane;
 import net.johjoh.nexus.desktop.panes.lists.ListPane;
+import net.johjoh.nexus.desktop.panes.login.LoginPane;
+import net.johjoh.nexus.desktop.panes.login.RegisterPane;
 import net.johjoh.nexus.desktop.panes.mainmenu.MainMenuPane;
 import net.johjoh.nexus.desktop.panes.weather.WeatherPane;
 import net.johjoh.nexus.desktop.util.CalendarUtil;
@@ -36,6 +37,7 @@ public class NexusDesktop extends Application {
 	private static Pane overlayPane;
 	private static RootFrame rootFrame;
 	private static LoginPane loginPane;
+	private static RegisterPane registerPane;
 	private static WeatherPane weatherPane;
 	private static ListPane listPane;
 	
@@ -69,6 +71,7 @@ public class NexusDesktop extends Application {
 		overlayPane = new Pane();
 		rootFrame = new RootFrame();
 		loginPane = new LoginPane();
+		registerPane = new RegisterPane();
 		weatherPane = new WeatherPane();
 		listPane = new ListPane();
 	}
@@ -84,6 +87,7 @@ public class NexusDesktop extends Application {
 	public static Pane getOverlayPane() { return overlayPane; }
 	public static RootFrame getRootFrame() { return rootFrame; }
 	public static LoginPane getLoginPane() { return loginPane; }
+	public static RegisterPane getRegisterPane() { return registerPane; }
 	public static WeatherPane getWeatherPane() { return weatherPane; }
 	public static ListPane getListPane() { return listPane; }
 
@@ -103,7 +107,7 @@ public class NexusDesktop extends Application {
         mainPane.setAlignment(getSettingsPane(), Pos.CENTER);
         getOverlayPane().setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
         getOverlayPane().setVisible(false); 
-		mainPane.getChildren().addAll(getSettingsPane(), getOverlayPane(), getRootFrame(), getLoginPane());
+		mainPane.getChildren().addAll(getSettingsPane(), getOverlayPane(), getRootFrame(), getLoginPane(), getRegisterPane());
 		
 		getSettingsPane().setVisible(false);
 		

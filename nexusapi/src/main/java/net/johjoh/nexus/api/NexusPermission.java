@@ -1,6 +1,6 @@
 package net.johjoh.nexus.api;
 
-public enum CalendarPermission {
+public enum NexusPermission {
 	
 	NONE(0),
 	READ(1),
@@ -8,7 +8,7 @@ public enum CalendarPermission {
 	
 	private final int id;
 	
-	CalendarPermission(int id) {
+	NexusPermission(int id) {
 		this.id = id;
 	}
 

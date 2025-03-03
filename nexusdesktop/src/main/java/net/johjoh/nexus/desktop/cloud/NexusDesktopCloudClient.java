@@ -5,12 +5,16 @@ import java.util.UUID;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import net.johjoh.nexus.cloud.api.client.ClientType;
 import net.johjoh.nexus.cloud.api.packet.Packet;
+import net.johjoh.nexus.cloud.api.packet.data.PacketClientDataRequest;
 import net.johjoh.nexus.cloud.api.packet.data.PacketServerDataResponse;
 import net.johjoh.nexus.cloud.api.packet.user.PacketClientUserLogin;
 import net.johjoh.nexus.cloud.api.packet.user.PacketServerPasswordSaltResponse;
 import net.johjoh.nexus.cloud.api.packet.user.PacketServerUserLoginResponse;
+import net.johjoh.nexus.cloud.api.packet.user.PacketServerUserRegistrationResponse;
 import net.johjoh.nexus.cloud.client.CloudClient;
 import net.johjoh.nexus.desktop.NexusDesktop;
 import net.johjoh.nexus.desktop.util.CalendarUtil;
@@ -26,6 +30,8 @@ public class NexusDesktopCloudClient extends CloudClient {
 
 	@Override
 	public void onPacketReceive(Packet p) {
+		//switch(p) {
+			//case PacketServerDataResponse psdr -> {
 		if(p instanceof PacketServerDataResponse) {
 			PacketServerDataResponse psdr = (PacketServerDataResponse) p;
 			String response = psdr.getResponse();
@@ -59,22 +65,47 @@ public class NexusDesktopCloudClient extends CloudClient {
 			
             NexusDesktop.getLoginPane().setVisible(false);
             NexusDesktop.getOverlayPane().setVisible(false);
+            
+            String calendarRequest = "{\"table\":\"calendar\",\"request_type\":\"init\"}";
+            PacketClientDataRequest pcdr = new PacketClientDataRequest(sessionId, calendarRequest);
+            sendPacket(pcdr);
 			
 		}
 		else if(p instanceof PacketServerPasswordSaltResponse) {
 			PacketServerPasswordSaltResponse pcrps = (PacketServerPasswordSaltResponse) p;
 			String salt = pcrps.getSalt();
 			
-			String passwordSaltHash = LoginUtil.hashPasswordForTransfer(LoginUtil.getPassword(), salt);
+			String passwordSaltHash = LoginUtil.hashPassword(LoginUtil.getPassword(), salt);
 			
 			PacketClientUserLogin pcul = new PacketClientUserLogin(LoginUtil.getUsername(), passwordSaltHash);
 			sendPacket(pcul);
+		}
+		else if(p instanceof PacketServerUserRegistrationResponse) {
+			PacketServerUserRegistrationResponse psurr = (PacketServerUserRegistrationResponse) p;
+			if(psurr.getSuccessful()) {
+				NexusDesktop.getRegisterPane().setVisible(false);
+				
+				Alert alert = new Alert(AlertType.INFORMATION);
+		        alert.setTitle("Registrierung");
+		        alert.setHeaderText(null);
+		        alert.setContentText("Erfolgreich! Du kannst dich jetzt anmelden.");
+
+		        alert.showAndWait();
+			}
+			else {
+				Alert alert = new Alert(AlertType.ERROR);
+		        alert.setTitle("Registrierung");
+		        alert.setHeaderText(null);
+		        alert.setContentText("Nutzer existiert bereits oder konnte nicht erstellt werden!");
+
+		        alert.showAndWait();
+			}
 		}
 	}
 	
 	@Override
 	public void onConnect() {
-		
+		NexusDesktop.getLoginPane().getServerSettingsLoginPane().setConnected();
 	}
 	
 	public UUID getSessionId() {

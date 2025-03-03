@@ -1,4 +1,4 @@
-package net.johjoh.nexus.desktop.panes;
+package net.johjoh.nexus.desktop.panes.login;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -40,6 +40,10 @@ public class LoginPane extends BorderPane {
 	
 	public LoginCenterPane getLoginCenterPane() {
 		return this.loginCenterPane;
+	}
+	
+	public ServerSettingsLoginPane getServerSettingsLoginPane() {
+		return this.serverSettingsLoginPane;
 	}
 
 	public class LoginControllPane extends HBox {
@@ -100,9 +104,9 @@ public class LoginPane extends BorderPane {
 			loginButton.setId("login-button");
 			loginButton.setOnMouseReleased(new EventHandler<MouseEvent>() {
 				public void handle(MouseEvent event) {
-		            //NexusDesktop.getLoginPane().setVisible(false);
-		            //NexusDesktop.getOverlayPane().setVisible(false);
-					LoginUtil.sendLoginRequest(usernameField.getText(), passwordField.getText());
+		            NexusDesktop.getLoginPane().setVisible(false);
+		            NexusDesktop.getOverlayPane().setVisible(false);
+					//LoginUtil.sendLoginRequest(usernameField.getText(), passwordField.getText());
 				}
 			});
 			getChildren().add(loginButton);
@@ -115,8 +119,10 @@ public class LoginPane extends BorderPane {
 
 	}
 
-	private class ServerSettingsLoginPane extends HBox {
+	public class ServerSettingsLoginPane extends HBox {
 
+		private Label registerLabel;
+		private Label seperatorLabel;
 		private Label serverSettingsLabel;
 		private ImageView serverStatusImageView;
 		private Image serverStatusImage;
@@ -124,8 +130,22 @@ public class LoginPane extends BorderPane {
 		public ServerSettingsLoginPane() {
 			setAlignment(Pos.CENTER);
 			
+			registerLabel = new Label("Registrieren");
+			registerLabel.getStyleClass().add("login-label-button");
+			registerLabel.setOnMouseReleased(new EventHandler<MouseEvent>() {
+				public void handle(MouseEvent event) {
+		        	NexusDesktop.getRegisterPane().setVisible(true);
+		        	NexusDesktop.getRegisterPane().toFront();
+				}
+			});
+			getChildren().add(registerLabel);
+			
+			seperatorLabel = new Label("\u2022");
+			seperatorLabel.setId("login-seperator");
+			getChildren().add(seperatorLabel);
+			
 			serverSettingsLabel = new Label("Servereinstellungen");
-			serverSettingsLabel.setId("server-settings-label");
+			serverSettingsLabel.getStyleClass().add("login-label-button");
 			serverSettingsLabel.setOnMouseReleased(new EventHandler<MouseEvent>() {
 				public void handle(MouseEvent event) {
 		        	NexusDesktop.getSettingsPane().setLogin(true);

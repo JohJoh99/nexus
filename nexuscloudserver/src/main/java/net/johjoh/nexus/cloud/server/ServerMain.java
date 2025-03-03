@@ -15,11 +15,6 @@ import java.util.zip.ZipOutputStream;
 
 import javax.crypto.NoSuchPaddingException;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
-import net.johjoh.nexus.api.sql.HibernateUtil;
-import net.johjoh.nexus.api.tables.NexusUser;
 import net.johjoh.nexus.cloud.api.CloudSecurity;
 import net.johjoh.nexus.cloud.server.bashserver.BashServer;
 import net.johjoh.nexus.cloud.server.console.Console;
@@ -39,8 +34,8 @@ public class ServerMain {
 	public static void main(String[] args) {
 		
 		//	Load Hibernate
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-		Session session = sessionFactory.openSession();
+		//SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		//Session session = sessionFactory.openSession();
 		
         /*try {
             session.beginTransaction();

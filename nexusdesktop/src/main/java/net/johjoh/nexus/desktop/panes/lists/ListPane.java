@@ -24,6 +24,8 @@ public class ListPane extends BorderPane {
 	private HashMap<String, ArrayList<ListItem>> listItems;
 	
 	public ListPane() {
+		setId("list-pane");
+		
 		listItems = new HashMap<String, ArrayList<ListItem>>();
 		
 		listItems.put("TODO", new ArrayList<ListItem>());
@@ -53,6 +55,7 @@ public class ListPane extends BorderPane {
 		for(String h : listItems.keySet()) {
 			TextField textField = new TextField(h);
 			Label label = new Label(h);
+			label.getStyleClass().add("list-title-label");
 			
 			listHeader.put(h, textField);
 			listHeaderLabels.put(h, label);
@@ -91,6 +94,7 @@ public class ListPane extends BorderPane {
 		
 		for(ListItem h : listItems.get("TODO")) {
 			Label label = new Label(h.getTitle());
+			label.getStyleClass().add("list-entry-label");
 			listRows.add(label);
 			
 			listRowPane.getChildren().add(label);
