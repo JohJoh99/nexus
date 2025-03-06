@@ -29,17 +29,17 @@ public class MainMenuPane extends BorderPane {
 		CalendarFrame calendarFrame = new CalendarFrame();
 		firstColumn.getChildren().add(calendarFrame);
 		
-		MenuFrame a = new MenuFrame("Kachel " + 1, "Dies sind alles tolle Kacheln", 200);
-		firstColumn.getChildren().add(a);
-		
 		MenuFrame b = new MenuFrame("Kachel " + 2, "Dies sind alles tolle Kacheln", 200);
 		secondColumn.getChildren().add(b);
 		
 		MenuFrame c = new MenuFrame("Kachel " + 3, "Dies sind alles tolle Kacheln", 200);
 		secondColumn.getChildren().add(c);
 		
-		MenuFrame d = new MenuFrame("Kachel " + 4, "Dies sind alles tolle Kacheln", 200);
-		thirdColumn.getChildren().add(d);
+		ListFrame todoListFrame = new ListFrame("TODO");
+		thirdColumn.getChildren().add(todoListFrame);
+		
+		ListFrame shoppingListFrame = new ListFrame("Einkaufsliste");
+		thirdColumn.getChildren().add(shoppingListFrame);
 		
 		setLeft(firstColumn);
 		setCenter(secondColumn);
