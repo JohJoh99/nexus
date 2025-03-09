@@ -3,13 +3,17 @@ package net.johjoh.nexus.desktop.panes.lists;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import net.johjoh.nexus.desktop.NexusDesktop;
+import net.johjoh.nexus.desktop.util.ListItem;
+import net.johjoh.nexus.desktop.util.ListUtil;
 
 public class ListPane extends BorderPane {
 	
@@ -17,25 +21,13 @@ public class ListPane extends BorderPane {
 	private ListRowPane listRowPane;
 	private ListDetailsPane listDetailsPane;
 	
-	private HashMap<String, TextField> listHeader;
-	private HashMap<String, Label> listHeaderLabels;
-	private ArrayList<Label> listRows;
-	
-	private HashMap<String, ArrayList<ListItem>> listItems;
+	public ListRowPane getListRowPane() { return this.listRowPane; }
 	
 	public ListPane() {
 		setId("list-pane");
-		
-		listItems = new HashMap<String, ArrayList<ListItem>>();
-		
-		listItems.put("TODO", new ArrayList<ListItem>());
-		listItems.put("Einkaufsliste", new ArrayList<ListItem>());
-		
-		listItems.get("TODO").add(new ListItem("TODO", "Apfelbaum pflanzen", "Rote Äpfel"));
-		listItems.get("TODO").add(new ListItem("TODO", "Birnenbaum pflanzen", "Rote Birnenbaum"));
-		listItems.get("Einkaufsliste").add(new ListItem("Einkaufsliste", "Roter Apfel", "17x"));
-		listItems.get("Einkaufsliste").add(new ListItem("Einkaufsliste", "Roter Birnenbaum", "312x"));
-		listItems.get("Einkaufsliste").add(new ListItem("Einkaufsliste", "Mehl", "10.000 Mehlkörner"));
+	}
+	
+	public void reload() {
 		
 		listHeadPane = new ListHeadPane();
 		listRowPane = new ListRowPane();
@@ -48,11 +40,11 @@ public class ListPane extends BorderPane {
 		setCenter(listRowScrollPane);
 		setRight(listDetailsPane);
 		
-		listHeader = new HashMap<String, TextField>();
-		listHeaderLabels = new HashMap<String, Label>();
-		listRows = new ArrayList<Label>();
+		//listHeader = new HashMap<String, TextField>();
+		//listHeaderLabels = new HashMap<String, Label>();
+		//listRows = new ArrayList<Label>();
 		
-		for(String h : listItems.keySet()) {
+		/*for(String h : listItems.keySet()) {
 			TextField textField = new TextField(h);
 			Label label = new Label(h);
 			label.getStyleClass().add("list-title-label");
@@ -98,22 +90,146 @@ public class ListPane extends BorderPane {
 			listRows.add(label);
 			
 			listRowPane.getChildren().add(label);
-		}
+		}*/
 		
+	}
+	
+	public void openDetails(int listId, String title) {
+		listDetailsPane = new ListDetailsPane(listId, title);
+		setRight(listDetailsPane);
 	}
 	
 	private class ListHeadPane extends VBox {
 		
+		private HashMap<Integer, TextField> listHeader;
+		private HashMap<Integer, ListTitleLabel> listHeaderLabels;
+		
 		public ListHeadPane() {
+			setId("list-pane");
+
+			listHeader = new HashMap<Integer, TextField>();
+			listHeaderLabels = new HashMap<Integer, ListTitleLabel>();
 			
+			for(int i : ListUtil.getListIds()) {
+				String title = ListUtil.getTitle(i);
+				TextField textField = new TextField(title);
+				textField.setVisible(false);
+				ListTitleLabel label = new ListTitleLabel(title, i);
+				label.getStyleClass().add("list-header-label");
+				textField.getStyleClass().add("list-header-textfield");
+				
+				label.setOnMouseReleased(event -> {
+					NexusDesktop.getListPane().getListRowPane().showListLines(label.getListId());
+				});
+				
+				label.getStyleClass().add("list-title-label");
+				
+				listHeader.put(i, textField);
+				listHeaderLabels.put(i, label);
+				getChildren().addAll(listHeader.get(i), listHeaderLabels.get(i));
+			}
+		}
+		
+		private class ListTitleLabel extends Label {
+			
+			private int listId;
+			
+			public ListTitleLabel(String text, int listId) {
+				super(text);
+				this.listId = listId;
+			}
+			
+			public int getListId() {
+				return this.listId;
+			}
 		}
 		
 	}
 	
 	private class ListRowPane extends VBox {
+		
+		private ArrayList<ListLineBox> listLineBoxes;
+		private HBox addBox;
+		private TextField addTextField;
+		private Button addButton;
+		
+		private int currentListId = -1;
 
 		public ListRowPane() {
+			setId("list-pane");
 			
+			listLineBoxes = new ArrayList<ListLineBox>();
+
+			for(int i : ListUtil.getListIds()) {
+				currentListId = i;
+				for(ListItem li : ListUtil.getListItems(i)) {
+					ListLineBox box = new ListLineBox(currentListId, li);
+					listLineBoxes.add(box);
+					
+					getChildren().add(box);
+				}
+				
+				break;
+			}
+			
+			addBox = new HBox();
+			
+			addTextField = new TextField();
+			addTextField.setPromptText("Titel");
+			
+			addButton = new Button("+");
+			addButton.setOnMouseReleased(event -> {
+				if(addTextField.getText().length() > 0 && !ListUtil.hasItem(currentListId, addTextField.getText())) {
+					ListUtil.addListEntry(currentListId, addTextField.getText(), "");
+					addTextField.clear();
+					showListLines(currentListId);
+				}
+			});
+			addBox.getChildren().addAll(addTextField, addButton);
+			
+			getChildren().add(addBox);
+		}
+		
+		public void showListLines(int listId) {
+			getChildren().clear();
+			listLineBoxes.clear();
+			
+			currentListId = listId;
+
+			for(ListItem li : ListUtil.getListItems(listId)) {
+				ListLineBox box = new ListLineBox(currentListId, li);
+				listLineBoxes.add(box);
+				
+				getChildren().add(box);
+			}
+
+			getChildren().add(addBox);
+		}
+		
+		private class ListLineBox extends HBox {
+			
+			private Label titleLabel;
+			private CheckBox doneCheckBox;
+			private Button deleteButton;
+			
+			private int listId;
+			private String title;
+			
+			public ListLineBox(int listId, ListItem li) {
+				this.listId = listId;
+				this.title = li.getTitle();
+				
+				titleLabel = new Label(li.getTitle());
+				titleLabel.setOnMouseReleased(event -> {
+					NexusDesktop.getListPane().openDetails(this.listId, this.title);
+				});
+				titleLabel.getStyleClass().add("list-line-label");
+				doneCheckBox = new CheckBox();
+				doneCheckBox.setSelected(li.getDone());
+				deleteButton = new Button("-");
+				
+				getChildren().addAll(titleLabel, doneCheckBox, deleteButton);
+			}
 		}
 		
 	}
@@ -123,37 +239,28 @@ public class ListPane extends BorderPane {
 		private Label listLabel;
 		private Label titleLabel;
 		private Label detailsLabel;
-
+		
 		public ListDetailsPane() {
-			listLabel = new Label();
-			titleLabel = new Label();
-			detailsLabel = new Label();
+			
 		}
-		
-	}
-	
-	private class ListItem {
-		
-		private String list;
-		private String title;
-		private String details;
-		
-		public ListItem(String list, String title, String details) {
-			this.list = list;
-			this.title = title;
-			this.details = details;
-		}
-		
-		public String getList() {
-			return this.list;
-		}
-		
-		public String getTitle() {
-			return this.title;
-		}
-		
-		public String getDetails() {
-			return this.details;
+
+		public ListDetailsPane(int listId, String listTitle) {
+			setId("list-pane");
+			
+			ListItem li = ListUtil.getListItem(listId, listTitle);
+			
+			Label listCaption = new Label("Liste:");
+			listCaption.getStyleClass().add("list-line-label");
+			listLabel = new Label(ListUtil.getTitle(listId));
+			listLabel.getStyleClass().add("list-line-label");
+			Label itemCaption = new Label("Eintrag:");
+			itemCaption.getStyleClass().add("list-line-label");
+			titleLabel = new Label(li.getTitle());
+			titleLabel.getStyleClass().add("list-line-label");
+			detailsLabel = new Label(li.getDetails());
+			detailsLabel.getStyleClass().add("list-line-label");
+			
+			getChildren().addAll(listCaption, listLabel, itemCaption, titleLabel, detailsLabel);
 		}
 		
 	}

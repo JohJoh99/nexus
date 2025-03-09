@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import javafx.application.Platform;
 import net.johjoh.nexus.cloud.api.packet.data.PacketClientDataUpdate;
 import net.johjoh.nexus.desktop.NexusDesktop;
 
@@ -31,8 +32,10 @@ public class CalendarUtil {
     	CalendarSource family = new CalendarSource("Familienkalender");
     	calendarSources.put(0, own);
     	calendarSources.put(1, family);
-    	
-    	//NexusDesktop.getCalendarPane().getCalendarSources().addAll(own, family);
+
+		/*Platform.runLater(() -> {
+	    	NexusDesktop.getCalendarPane().getCalendarSources().addAll(own, family);
+		});*/
 	}
 	
 	public static void loadCalendarFromNode(JsonNode jsonNode) {
@@ -46,10 +49,10 @@ public class CalendarUtil {
 
 		Calendar<String> calendar = new Calendar<String>(calendarTitle);
 		
-        calendar.addEventHandler(CalendarEvent.ENTRY_CHANGED, event -> {
+        /*calendar.addEventHandler(CalendarEvent.ENTRY_CHANGED, event -> {
             Entry<?> entry = event.getEntry();
             saveEntry(entry);
-        });
+        });*/
 		
         if (lines.isArray()) {
             for (JsonNode node : lines) {

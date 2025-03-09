@@ -15,6 +15,8 @@ public class WeatherUtil {
 	
 	//	https://api.brightsky.dev/weather?lat=48.4014&lon=9.9885&date=2025-02-08
 	private static String weatherRequest = "https://api.brightsky.dev/weather?lat=%1&lon=%2&date=%3";
+	//	https://api.sunrisesunset.io/json?lat=38.907192&lng=-77.036873&timezone=UTC&date=1990-05-22
+	private static String sunRequest = "https://api.sunrisesunset.io/json?lat=%1&lng=%2&timezone=UTC&date=%3";
 	private static JsonNode weather;
 	
 	private static double minTemp;
@@ -46,6 +48,42 @@ public class WeatherUtil {
 		}
 		
 		return true;
+	}
+	
+	public static JsonNode getSun(double lat, double lon, LocalDate date) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String request = sunRequest.replace("%1", String.valueOf(lat)).replace("%2", String.valueOf(lon)).replace("%3", formatter.format(date));
+
+	    JsonNode sun = null;
+	    try {
+	        URL url = new URL(request);
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	        conn.setRequestMethod("GET");
+
+	        // Überprüfe den HTTP-Statuscode
+	        int responseCode = conn.getResponseCode();
+	        if (responseCode != HttpURLConnection.HTTP_OK) {
+	            // Handle error
+	            return null;
+	        }
+
+	        InputStream is = conn.getInputStream();
+	        ObjectMapper mapper = new ObjectMapper();
+	        JsonNode root = mapper.readTree(is);
+
+	        // Überprüfe, ob das "weather"-Feld vorhanden ist
+	        if (root.has("results")) {
+	            sun = root.path("results");
+	        }
+
+	        // Schließe den InputStream
+	        is.close();
+	        conn.disconnect();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	    return sun;
 	}
 	
 	private static JsonNode getWeather(String request) {

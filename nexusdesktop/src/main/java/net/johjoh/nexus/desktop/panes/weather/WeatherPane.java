@@ -52,8 +52,13 @@ public class WeatherPane extends VBox {
 		if(weather == null)
 			return;
 		
+		if(daysFromToday == 0) day = "Heute";
+		if(daysFromToday == 1) day = "Morgen";
+		if(daysFromToday == 2) day = "Übermorgen";
+		
 		LocalTime now = LocalTime.now();
 		JsonNode currentWeather = weather.get(now.getHour());
+		JsonNode currentWeather2 = weather.get(now.getHour()-1);
 		
 		windDirection = currentWeather.path("wind_direction").asInt();
 		currentWindSpeed = currentWeather.path("wind_speed").asDouble();
@@ -106,6 +111,7 @@ public class WeatherPane extends VBox {
 		
 		LocalTime now = LocalTime.now();
 		JsonNode currentWeather = weather.get(now.getHour());
+		JsonNode currentWeather2 = weather.get(now.getHour()-1);
 		
 		windDirection = currentWeather.path("wind_direction").asInt();
 		currentWindSpeed = currentWeather.path("wind_speed").asDouble();
@@ -139,6 +145,7 @@ public class WeatherPane extends VBox {
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 		dateLabel = new Label(formatter.format(today));
+		dateLabel.getStyleClass().add("weather-label");
 		
 		HBox daySelection = new HBox();
 		daySelection.setId("day-selection");
@@ -174,32 +181,44 @@ public class WeatherPane extends VBox {
 		
 		VBox vBox2 = new VBox();
 		weatherTodayLabel = new Label(day + ": " + maxTemp + "°/" + minTemp + "°");
+		weatherTodayLabel.getStyleClass().add("weather-label");
 		
 		HBox hBox3 = new HBox();
 		currentTempLabel = new Label(currentWeather.path("temperature").asDouble() + "°");
-		ImageView currentWeatherImage = new ImageView();
+		currentTempLabel.getStyleClass().add("weather-label");
+
+		String currentIcon = currentWeather.path("icon").asText();
+		ImageView currentWeatherImage = new ImageView(WeatherUtil.getWeatherImage(currentIcon));
+		currentWeatherImage.setFitHeight(64);
+		currentWeatherImage.setFitWidth(64);
 		
 		VBox vBox3 = new VBox();
 		Label currentWeatherDescriptionLabel = new Label(currentWeather.path("condition").asText());
+		currentWeatherDescriptionLabel.getStyleClass().add("weather-label");
 		currentWindLabel = new Label("Wind: " + getDirectionFromDegree(windDirection) + " bis " + currentWindSpeed + " km/h");
-		Label currentPrecipitationLabel = new Label("Niederschlag %1% \u00B7 bis %2mm"); 
+		currentWindLabel.getStyleClass().add("weather-label");
+		Label currentPrecipitationLabel = new Label("Niederschlag %1% \u00B7 bis %2mm");
+		currentPrecipitationLabel.getStyleClass().add("weather-label");
 		
 		//	rechts
 		VBox vBox4 = new VBox();
 		
 		HBox hBox4 = new HBox();
 		Label dayLabel = new Label(day);
+		dayLabel.getStyleClass().add("weather-label");
 		ImageView todayWeatherImage = new ImageView();
 		Label todayTempLabel = new Label(maxTemp + "°C " + minTemp + "°C");
+		todayTempLabel.getStyleClass().add("weather-label");
 		hBox4.getChildren().addAll(dayLabel, todayWeatherImage, todayTempLabel);
 		
 		precipitationBox = new WHBox("Precipitation", "Niederschlag", rainProbability + "% \u00B7 bis " + maxPrecip + "mm");
 		WHBox windBox = new WHBox("Wind", "Wind", minWind + " bis " + maxWind + " km/h");
-		WHBox sunriseBox = new WHBox("Sunrise", "Sonnenaufgang", "%1 Uhr");
-		WHBox sunsetBox = new WHBox("Sunset", "Sonnenuntergang", "%1 Uhr");
-		WHBox sunhoursBox = new WHBox("Sunhours", "Sonnenstunden", "%1h");
-		WHBox humidityBox = new WHBox("Humidity", "Luftfeuchtigkeit", "%1%");
-		WHBox airpressureBox = new WHBox("Airpressure", "Luftdruck", "%1 mbar");
+		JsonNode sun = WeatherUtil.getSun(lat, lon, today);
+		WHBox sunriseBox = new WHBox("Sunrise", "Sonnenaufgang", sun.path("sunrise").asText());// + " Uhr");
+		WHBox sunsetBox = new WHBox("Sunset", "Sonnenuntergang", sun.path("sunset").asText());// + " Uhr");
+		WHBox sunhoursBox = new WHBox("Sunhours", "Sonnenstunden", sun.path("day_length").asText() + "h");
+		WHBox humidityBox = new WHBox("Humidity", "Luftfeuchtigkeit", currentWeather2.path("relative_humidity").asText() + "%");
+		WHBox airpressureBox = new WHBox("Airpressure", "Luftdruck", currentWeather.path("pressure_msl").asText() + " mbar");
 		
 		hBox1.getChildren().addAll(vBox1, vBox4);
 		vBox1.getChildren().addAll(hBox2);
@@ -227,8 +246,10 @@ public class WeatherPane extends VBox {
 	        imageView.setFitWidth(14);
 	        
 	        Label titleLabel = new Label(title);
+	        titleLabel.getStyleClass().add("weather-label");
 	        
 	        valueLabel = new Label(value);
+	        valueLabel.getStyleClass().add("weather-label");
 			
 	        getChildren().addAll(imageView, titleLabel, valueLabel);
 		}

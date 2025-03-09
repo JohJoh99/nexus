@@ -24,8 +24,8 @@ public class CalendarPane extends CalendarView {
 		//CalendarSource myCalendarSource = new CalendarSource("My Calendars");
 		//myCalendarSource.getCalendars().addAll(birthdays, holidays);
 
-		getCalendarSources().addAll(CalendarUtil.getCalendarSources());
 		getCalendarSources().clear();
+		getCalendarSources().addAll(CalendarUtil.getCalendarSources());
 
 		setRequestedTime(LocalTime.now());
 

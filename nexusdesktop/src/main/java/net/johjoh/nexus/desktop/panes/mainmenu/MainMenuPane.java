@@ -1,10 +1,9 @@
 package net.johjoh.nexus.desktop.panes.mainmenu;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import net.johjoh.nexus.desktop.util.ListUtil;
 
 public class MainMenuPane extends BorderPane {
 	
@@ -12,6 +11,13 @@ public class MainMenuPane extends BorderPane {
 	private MainMenuColumn secondColumn;
 	private MainMenuColumn thirdColumn;
 	
+	private MessageFrame messageFrame;
+	
+	private boolean listsLoaded;
+	
+	public MessageFrame getMessageFrame() {
+		return this.messageFrame;
+	}
 	
 	public MainMenuPane() {
 		//setPrefColumns(3);
@@ -29,17 +35,8 @@ public class MainMenuPane extends BorderPane {
 		CalendarFrame calendarFrame = new CalendarFrame();
 		firstColumn.getChildren().add(calendarFrame);
 		
-		MenuFrame b = new MenuFrame("Kachel " + 2, "Dies sind alles tolle Kacheln", 200);
-		secondColumn.getChildren().add(b);
-		
-		MenuFrame c = new MenuFrame("Kachel " + 3, "Dies sind alles tolle Kacheln", 200);
-		secondColumn.getChildren().add(c);
-		
-		ListFrame todoListFrame = new ListFrame("TODO");
-		thirdColumn.getChildren().add(todoListFrame);
-		
-		ListFrame shoppingListFrame = new ListFrame("Einkaufsliste");
-		thirdColumn.getChildren().add(shoppingListFrame);
+		messageFrame = new MessageFrame();
+		secondColumn.getChildren().add(messageFrame);
 		
 		setLeft(firstColumn);
 		setCenter(secondColumn);
@@ -53,6 +50,24 @@ public class MainMenuPane extends BorderPane {
 	        //label.setMinWidth(100);
 	        getChildren().add(label);
 	    }*/
+		
+		listsLoaded = false;
+	}
+	
+	public void loadLists() {
+		if(ListUtil.getListIds().size() != 2)
+			return;
+		if(listsLoaded)
+			return;
+		
+		listsLoaded = true;
+
+		ListFrame todoListFrame = new ListFrame("TODO");
+		thirdColumn.getChildren().add(todoListFrame);
+		
+		ListFrame shoppingListFrame = new ListFrame("Einkaufsliste");
+		thirdColumn.getChildren().add(shoppingListFrame);
+		
 	}
 	
 	private class MainMenuColumn extends VBox {

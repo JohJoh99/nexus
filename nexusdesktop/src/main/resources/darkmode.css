@@ -1,6 +1,35 @@
 /* Lists */
+#list-frame-title {
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20px;
+	-fx-font-weight: bold;
+}
+
+#list-frame-entry {
+	-fx-background-color: #0a0a0a;
+}
+
 #list-pane {
 	-fx-background-color: #0a0a0a;
+}
+
+.list-header-label {
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20px;
+	-fx-font-weight: bold;
+}
+
+.list-header-textfield {
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20px;
+	-fx-font-weight: bold;
+}
+
+.list-line-label {
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 14px;
+	-fx-font-weight: bold;
+	-fx-padding: 10px;
 }
 
 .list-title-label {
@@ -17,7 +46,7 @@
 
 /*  Weather	 */
 #weather-pane {
-	-fx-background-color: #0a0a0a;
+	-fx-background-color: #4a4a4a;
 }
 
 #place-label {
@@ -30,6 +59,13 @@
 #day-selection {
 	-fx-padding: 20px 50px 20px 50px;
 	-fx-spacing: 50px;
+}
+
+.weather-label {
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 16px;
+	-fx-font-weight: bold;
+	-fx-padding: 10px 0 0 50px;
 }
 
 .date-button {

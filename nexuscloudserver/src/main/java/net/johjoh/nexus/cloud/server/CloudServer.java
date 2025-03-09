@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.johjoh.nexus.api.sql.HibernateUtil;
 import net.johjoh.nexus.cloud.api.client.ClientType;
 import net.johjoh.nexus.cloud.api.packet.Packet;
 import net.johjoh.nexus.cloud.server.connection.AbstractClientConnection;
@@ -110,6 +111,9 @@ public class CloudServer extends Thread {
 		}
 		catch (InterruptedException e) {}
 		serverSocket.close();
+		
+		HibernateUtil.shutdown();
+		
 		Logger.log("Server closed!");
 		PacketListenerManager.getInstance().unregisterAll();
 	}

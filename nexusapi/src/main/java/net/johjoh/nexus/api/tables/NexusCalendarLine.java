@@ -35,6 +35,10 @@ public class NexusCalendarLine {
     @Column(name = "end_datetime", nullable = false)
     private LocalDateTime endDateTime;
     
+    public NexusCalendarLine() {
+    	
+    }
+    
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     

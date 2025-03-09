@@ -3,8 +3,11 @@ package net.johjoh.nexus.desktop;
 import java.util.Properties;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -142,6 +145,17 @@ public class NexusDesktop extends Application {
     			cloudClient.close(true, "Nexus Desktop is being closed!");
     		}
         });
+	}
+	
+	public static void showAlert(AlertType altertType, String title, String text) {
+		Platform.runLater(() -> {
+		Alert alert = new Alert(altertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(text);
+
+        alert.showAndWait();
+		});
 	}
 	
 	//CalendarView c = new CalendarView();

@@ -13,6 +13,10 @@ public class NexusFamily {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
+	public NexusFamily() {
+		
+	}
     
     public int getId() {
         return id;

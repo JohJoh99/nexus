@@ -13,9 +13,11 @@ public class LoginUtil {
 
 	private static String username;
 	private static String password;
+	private static User user;
 	
 	public static String getUsername() { return username; }
 	public static String getPassword() { return password; }
+	public static User getUser() { return user; }
 	
 	public static void sendRegistrationRequest(String usernameVar, String passwordVar) {
 		PacketClientUserRegistration pcur = new PacketClientUserRegistration(usernameVar, passwordVar);

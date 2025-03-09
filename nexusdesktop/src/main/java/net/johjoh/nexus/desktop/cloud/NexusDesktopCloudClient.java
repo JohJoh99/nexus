@@ -5,7 +5,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javafx.scene.control.Alert;
+import javafx.application.Platform;
 import javafx.scene.control.Alert.AlertType;
 import net.johjoh.nexus.cloud.api.client.ClientType;
 import net.johjoh.nexus.cloud.api.packet.Packet;
@@ -18,6 +18,7 @@ import net.johjoh.nexus.cloud.api.packet.user.PacketServerUserRegistrationRespon
 import net.johjoh.nexus.cloud.client.CloudClient;
 import net.johjoh.nexus.desktop.NexusDesktop;
 import net.johjoh.nexus.desktop.util.CalendarUtil;
+import net.johjoh.nexus.desktop.util.ListUtil;
 import net.johjoh.nexus.desktop.util.LoginUtil;
 
 public class NexusDesktopCloudClient extends CloudClient {
@@ -50,7 +51,10 @@ public class NexusDesktopCloudClient extends CloudClient {
             if(table.equalsIgnoreCase("calendar")) {
             	CalendarUtil.loadCalendarFromNode(jsonNode);
             }
-	        
+            else if(table.equalsIgnoreCase("list")) {
+            	
+            	ListUtil.loadListFromNode(jsonNode);
+            }
 	        
 	        
 		}
@@ -62,12 +66,19 @@ public class NexusDesktopCloudClient extends CloudClient {
 			}
 			
 			sessionId = psulr.getSessionId();
-			
-            NexusDesktop.getLoginPane().setVisible(false);
-            NexusDesktop.getOverlayPane().setVisible(false);
+
+			Platform.runLater(() -> {
+	            NexusDesktop.getLoginPane().setVisible(false);
+	            NexusDesktop.getOverlayPane().setVisible(false);
+	            NexusDesktop.getMainMenuPane().getMessageFrame().setTitle("Willkommen " + LoginUtil.getUsername());
+			});
             
             String calendarRequest = "{\"table\":\"calendar\",\"request_type\":\"init\"}";
             PacketClientDataRequest pcdr = new PacketClientDataRequest(sessionId, calendarRequest);
+            sendPacket(pcdr);
+            
+            String listRequest = "{\"table\":\"list\",\"request_type\":\"init\"}";
+            pcdr = new PacketClientDataRequest(sessionId, listRequest);
             sendPacket(pcdr);
 			
 		}
@@ -85,27 +96,33 @@ public class NexusDesktopCloudClient extends CloudClient {
 			if(psurr.getSuccessful()) {
 				NexusDesktop.getRegisterPane().setVisible(false);
 				
-				Alert alert = new Alert(AlertType.INFORMATION);
+				NexusDesktop.showAlert(AlertType.INFORMATION, "Registrierung", "Erfolgreich! Du kannst dich jetzt anmelden.");
+				
+				/*Alert alert = new Alert(AlertType.INFORMATION);
 		        alert.setTitle("Registrierung");
 		        alert.setHeaderText(null);
 		        alert.setContentText("Erfolgreich! Du kannst dich jetzt anmelden.");
 
-		        alert.showAndWait();
+		        alert.showAndWait();*/
 			}
 			else {
-				Alert alert = new Alert(AlertType.ERROR);
+				NexusDesktop.showAlert(AlertType.ERROR, "Registrierung", "Nutzer existiert bereits oder konnte nicht erstellt werden!");
+				/*Alert alert = new Alert(AlertType.ERROR);
 		        alert.setTitle("Registrierung");
 		        alert.setHeaderText(null);
 		        alert.setContentText("Nutzer existiert bereits oder konnte nicht erstellt werden!");
 
-		        alert.showAndWait();
+		        alert.showAndWait();*/
 			}
 		}
 	}
 	
 	@Override
 	public void onConnect() {
-		NexusDesktop.getLoginPane().getServerSettingsLoginPane().setConnected();
+		Platform.runLater(() -> {
+			if(NexusDesktop.getLoginPane() != null)
+				NexusDesktop.getLoginPane().getServerSettingsLoginPane().setConnected();
+		});
 	}
 	
 	public UUID getSessionId() {

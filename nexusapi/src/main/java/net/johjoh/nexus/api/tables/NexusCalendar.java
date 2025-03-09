@@ -21,6 +21,10 @@ public class NexusCalendar {
     @Column(name = "owner_id")
     private int ownerId;
     
+    public NexusCalendar() {
+    	
+    }
+    
     public NexusCalendar(String name, int ownerId) {
     	this.name = name;
     	this.ownerId = ownerId;

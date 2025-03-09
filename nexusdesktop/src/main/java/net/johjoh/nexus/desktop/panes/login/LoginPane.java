@@ -104,9 +104,9 @@ public class LoginPane extends BorderPane {
 			loginButton.setId("login-button");
 			loginButton.setOnMouseReleased(new EventHandler<MouseEvent>() {
 				public void handle(MouseEvent event) {
-		            NexusDesktop.getLoginPane().setVisible(false);
-		            NexusDesktop.getOverlayPane().setVisible(false);
-					//LoginUtil.sendLoginRequest(usernameField.getText(), passwordField.getText());
+		            //NexusDesktop.getLoginPane().setVisible(false);
+		            //NexusDesktop.getOverlayPane().setVisible(false);
+					LoginUtil.sendLoginRequest(usernameField.getText(), passwordField.getText());
 				}
 			});
 			getChildren().add(loginButton);
@@ -162,22 +162,33 @@ public class LoginPane extends BorderPane {
 			Tooltip tooltip = new Tooltip("Verbindet...");
 			Tooltip.install(serverStatusImageView, tooltip);
 			getChildren().add(serverStatusImageView);
+			
+			if(NexusDesktop.getCloudClient().isConnected())
+				setConnected();
 		}
 
 		public void setConnecting() {
 			serverStatusImage = new Image(getClass().getResource("/connecting.png").toExternalForm());
+			serverStatusImageView = new ImageView(serverStatusImage);
 			Tooltip tooltip = new Tooltip("Verbindet...");
 			Tooltip.install(serverStatusImageView, tooltip);
 		}
 
 		public void setConnected() {
 			serverStatusImage = new Image(getClass().getResource("/connected.png").toExternalForm());
+			serverStatusImageView = new ImageView(serverStatusImage);
+			serverStatusImageView.setFitHeight(16);
+			serverStatusImageView.setFitWidth(16);
 			Tooltip tooltip = new Tooltip("Verbunden");
 			Tooltip.install(serverStatusImageView, tooltip);
+			getChildren().remove(getChildren().size()-1);
+			getChildren().add(serverStatusImageView);
+			
 		}
 
 		public void setDisconnected() {
 			serverStatusImage = new Image(getClass().getResource("/disconnected.png").toExternalForm());
+			serverStatusImageView = new ImageView(serverStatusImage);
 			Tooltip tooltip = new Tooltip("Verbindung getrennt");
 			Tooltip.install(serverStatusImageView, tooltip);
 		}

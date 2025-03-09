@@ -61,7 +61,7 @@ public class Settings {
 	
 	public static Properties loadProperties() {
 		Properties defaultProperties = new Properties();
-		defaultProperties.setProperty("server-ip", "127.0.0.1");
+		defaultProperties.setProperty("server-ip", "nexus.johjoh.net");
 		defaultProperties.setProperty("server-port", "4242");
 		defaultProperties.setProperty("server-password", "password_safe");
 		

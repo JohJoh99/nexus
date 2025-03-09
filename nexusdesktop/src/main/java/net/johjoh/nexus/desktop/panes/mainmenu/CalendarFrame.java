@@ -4,9 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import com.calendarfx.model.Calendar;
-import com.calendarfx.model.Calendar.Style;
 import com.calendarfx.model.CalendarSource;
-import com.calendarfx.view.DayView;
 import com.calendarfx.view.MonthView;
 
 import javafx.application.Platform;
@@ -16,7 +14,7 @@ public class CalendarFrame extends MenuFrame {
 	private MonthView dayView;
 	
 	public CalendarFrame() {
-		super("Kalender", "a", 300);
+		super("Kalender", "", 300);
 		
 		dayView = new MonthView();
 		this.getChildren().add(dayView);

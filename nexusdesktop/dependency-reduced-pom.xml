@@ -5,6 +5,7 @@
   <artifactId>nexusdesktop</artifactId>
   <name>Nexus Desktop</name>
   <version>0.0.1</version>
+  <description>Nexus Desktopanwendung</description>
   <build>
     <plugins>
       <plugin>

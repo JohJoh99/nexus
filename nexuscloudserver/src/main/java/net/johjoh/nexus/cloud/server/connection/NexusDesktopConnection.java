@@ -30,6 +30,8 @@ import net.johjoh.nexus.api.sql.HibernateUtil;
 import net.johjoh.nexus.api.tables.NexusCalendar;
 import net.johjoh.nexus.api.tables.NexusCalendarLine;
 import net.johjoh.nexus.api.tables.NexusCalendarPermission;
+import net.johjoh.nexus.api.tables.NexusList;
+import net.johjoh.nexus.api.tables.NexusListLine;
 import net.johjoh.nexus.api.tables.NexusUser;
 import net.johjoh.nexus.cloud.api.CloudSecurity.Encrypt;
 import net.johjoh.nexus.cloud.api.client.ClientType;
@@ -77,6 +79,14 @@ public class NexusDesktopConnection extends AbstractClientConnection {
 	        	
 	        	List<JsonNode> calendars = getUserCalendarsNode(users.get(sessionUUID));
 	        	for(JsonNode response : calendars) {
+	        		PacketServerDataResponse psdr = new PacketServerDataResponse(sessionUUID, response.toString());
+	        		sendPacket(psdr);
+	        	}
+	        }
+	        else if(table.equalsIgnoreCase("list")) {
+	        	
+	        	List<JsonNode> lists = getUserListsNode(users.get(sessionUUID));
+	        	for(JsonNode response : lists) {
 	        		PacketServerDataResponse psdr = new PacketServerDataResponse(sessionUUID, response.toString());
 	        		sendPacket(psdr);
 	        	}
@@ -136,7 +146,47 @@ public class NexusDesktopConnection extends AbstractClientConnection {
 		}
 		else if(p instanceof PacketClientDataUpdate) {
 			PacketClientDataUpdate pcdu = (PacketClientDataUpdate) p;
+			String update = pcdu.getUpdate();
 			
+			JsonNode jsonNode = null;
+
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        try {
+	            jsonNode = objectMapper.readTree(update);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return;
+	        }
+	        
+	        String table = jsonNode.get("table").asText();
+            String type = jsonNode.get("type").asText();
+            if(table.equalsIgnoreCase("list") && type.equalsIgnoreCase("line")) {
+
+                JsonNode contentNode = jsonNode.get("content");
+                int listId = contentNode.get("listId").asInt();
+                String title = contentNode.get("title").asText();
+                String details = contentNode.get("details").asText();
+
+
+        		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        		Session session = sessionFactory.openSession();
+        		
+                try {
+                    session.beginTransaction();
+
+                    NexusListLine line = new NexusListLine(listId, title, false, details);
+                    session.persist(line);
+
+                    session.getTransaction().commit();
+                } catch (Exception e) {
+                    if (session.getTransaction() != null) {
+                        session.getTransaction().rollback();
+                    }
+                    e.printStackTrace();
+                } finally {
+                    session.close();
+                }
+            }
 			
 		}
 	}
@@ -185,6 +235,11 @@ public class NexusDesktopConnection extends AbstractClientConnection {
             
             NexusCalendar calendar = new NexusCalendar("Mein Kalender", user.getId());
             session.persist(calendar);
+            
+            NexusList list = new NexusList("TODO", user.getId());
+            session.persist(list);
+            list = new NexusList("Einkaufsliste", user.getId());
+            session.persist(list);
 
             session.getTransaction().commit();
             
@@ -197,7 +252,6 @@ public class NexusDesktopConnection extends AbstractClientConnection {
             success = false;
         } finally {
             session.close();
-            sessionFactory.close();
         }
         
         return success;
@@ -210,18 +264,13 @@ public class NexusDesktopConnection extends AbstractClientConnection {
 		//	TODO: Add other calendar
 		/*CriteriaQuery<NexusCalendarPermission> criteria = builder.createQuery(NexusCalendarPermission.class);
 		Root<NexusCalendarPermission> root = criteria.from(NexusCalendarPermission.class);
-		criteria.select(root).where(builder.equal(root.get("owner_id"), userId));
+		criteria.select(root).where(builder.equal(root.get("ownerId"), userId));
 		List<NexusCalendarPermission> calendars = session.createQuery(criteria).getResultList();*/
 		
 		CriteriaQuery<NexusCalendar> criteria = builder.createQuery(NexusCalendar.class);
 		Root<NexusCalendar> root = criteria.from(NexusCalendar.class);
-		criteria.select(root).where(builder.equal(root.get("owner_id"), userId));
+		criteria.select(root).where(builder.equal(root.get("ownerId"), userId));
 		List<NexusCalendar> calendars = session.createQuery(criteria).getResultList();
-		
-		CriteriaQuery<NexusCalendarLine> criteria2 = builder.createQuery(NexusCalendarLine.class);
-		Root<NexusCalendarLine> root2 = criteria2.from(NexusCalendarLine.class);
-		criteria2.select(root2).where(builder.equal(root2.get("owner_id"), userId));
-		List<NexusCalendarLine> calendarLines = session.createQuery(criteria2).getResultList();
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 		List<JsonNode> calendarNodes = new ArrayList<JsonNode>();
@@ -234,10 +283,15 @@ public class NexusDesktopConnection extends AbstractClientConnection {
             ObjectNode headContentNode = mapper.createObjectNode();
             headContentNode.put("id", calendar.getId());
             headContentNode.put("title", calendar.getName());
-            headContentNode.put("owner", calendar.getOwnerId());
+            headContentNode.put("ownerId", calendar.getOwnerId());
             rootNode.set("headcontent", headContentNode);
             
             ArrayNode lineContentArray = mapper.createArrayNode();
+            
+    		CriteriaQuery<NexusCalendarLine> criteria2 = builder.createQuery(NexusCalendarLine.class);
+    		Root<NexusCalendarLine> root2 = criteria2.from(NexusCalendarLine.class);
+    		criteria2.select(root2).where(builder.equal(root2.get("calendarId"), calendar.getId()));
+    		List<NexusCalendarLine> calendarLines = session.createQuery(criteria2).getResultList();
             
             for(NexusCalendarLine line : calendarLines) {
                 ObjectNode lineContent2 = mapper.createObjectNode();
@@ -247,6 +301,60 @@ public class NexusDesktopConnection extends AbstractClientConnection {
                 lineContent2.put("all_day", line.getAllDay());
                 lineContent2.put("start_datetime", line.getStartDateTime().format(formatter));
                 lineContent2.put("end_datetime", line.getEndDateTime().format(formatter));
+                lineContentArray.add(lineContent2);
+            }
+            
+            rootNode.set("linecontent", lineContentArray);
+            
+            calendarNodes.add(rootNode);
+		}
+		
+		session.close();
+		
+		return calendarNodes;
+	}
+	
+	private List<JsonNode> getUserListsNode(int userId) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		
+		//	TODO: Add other calendar
+		/*CriteriaQuery<NexusCalendarPermission> criteria = builder.createQuery(NexusCalendarPermission.class);
+		Root<NexusCalendarPermission> root = criteria.from(NexusCalendarPermission.class);
+		criteria.select(root).where(builder.equal(root.get("owner_id"), userId));
+		List<NexusCalendarPermission> calendars = session.createQuery(criteria).getResultList();*/
+		
+		CriteriaQuery<NexusList> criteria = builder.createQuery(NexusList.class);
+		Root<NexusList> root = criteria.from(NexusList.class);
+		criteria.select(root).where(builder.equal(root.get("ownerId"), userId));
+		List<NexusList> lists = session.createQuery(criteria).getResultList();
+		
+		List<JsonNode> calendarNodes = new ArrayList<JsonNode>();
+		
+		for(NexusList list : lists) {
+			ObjectMapper mapper = new ObjectMapper();
+			ObjectNode rootNode = mapper.createObjectNode();
+			rootNode.put("table", "list");
+
+            ObjectNode headContentNode = mapper.createObjectNode();
+            headContentNode.put("id", list.getId());
+            headContentNode.put("title", list.getTitle());
+            headContentNode.put("ownerId", list.getOwnerId());
+            rootNode.set("headcontent", headContentNode);
+            
+            ArrayNode lineContentArray = mapper.createArrayNode();
+            
+    		CriteriaQuery<NexusListLine> criteria2 = builder.createQuery(NexusListLine.class);
+    		Root<NexusListLine> root2 = criteria2.from(NexusListLine.class);
+    		criteria2.select(root2).where(builder.equal(root2.get("listId"), list.getId()));
+    		List<NexusListLine> listLines = session.createQuery(criteria2).getResultList();
+            
+            for(NexusListLine line : listLines) {
+                ObjectNode lineContent2 = mapper.createObjectNode();
+                lineContent2.put("id", line.getId());
+                lineContent2.put("name", line.getTitle());
+                lineContent2.put("done", line.getDone());
+                lineContent2.put("details", line.getDetails());
                 lineContentArray.add(lineContent2);
             }
             

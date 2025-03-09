@@ -19,7 +19,7 @@ public class WeatherFrame extends MenuFrame {
 	private Label minMaxTempLabel;
 	
 	public WeatherFrame(double lat, double lon, String place) {
-		super("Wetter - " + place, "a", 160);
+		super("Wetter - " + place, "", 160);
 		
 		LocalDate today = LocalDate.now();
 		if(!WeatherUtil.refreshWeather(lat, lon, today))
